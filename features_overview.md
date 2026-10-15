@@ -28,7 +28,13 @@ Rekkefølge på jobber er IT Help -> stud.ass -> Office -> Startup -> Tech Corp
 
 - Kompendie tilgjengelig på hver enkelt skole
 - egenstudie = multiple choice quiz med forklaring etter svar
-- eksamen 5(?) spørsmål uten forklaring, pass or fail 
+- eksamen 5(?) spørsmål uten forklaring, pass or fail
+
+### Boliger
+
+- 5 ulike bolignivåer fra lav til høy - telt, dorm, hybel, leilighet, penthouse
+- For hver oppgradering i bolig øker tiden per uke med 2? timer, fra 8-16 timer.
+- Boligene har ulik leie, der telt er helt gratis. Dersom man ikke klarer å betale måned/ukesleie, nedgradert til tidligere nivå?
 
 
 ### Achievements 
