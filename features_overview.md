@@ -2,6 +2,14 @@
 
 ## Main features
 
+### Spiller
+
+- male / female
+- bolignivå / tid per uke / leie
+- jobb / lønn
+- studienivå / jobber tilgjengelige
+- penger /damn son
+- 
 
 
 ### Quiz
