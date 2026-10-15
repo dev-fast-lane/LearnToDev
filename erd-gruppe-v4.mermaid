@@ -1,0 +1,115 @@
+erDiagram
+    IdentityUser ||--|| Player : "har"
+    Housing ||--o{ Player : "bor i"
+    Job |o--o{ Player : "nåværende jobb"
+    Player ||--o{ PlayerSchoolProgress : "har fremgang"
+    School ||--o{ PlayerSchoolProgress : "fremgang i"
+    Player ||--o{ JobDay : "jobber"
+    Job ||--o{ JobDay : "jobbes i"
+    Job ||--o{ JobPrerequisite : "krever jobb"
+    Job ||--o{ JobPrerequisite : "kreves av"
+    Job ||--o{ JobRequirement : "krever nivå"
+    SchoolLevel ||--o{ JobRequirement : "kreves av"
+    School ||--|{ SchoolLevel : "har 3"
+    SchoolLevel ||--o{ StudyQuestion : "har"
+    StudyQuestion ||--|{ AnswerOption : "har"
+    Job ||--o{ JobTask : "har"
+    JobTask ||--|{ JobTaskAnswer : "godkjente svar"
+
+    IdentityUser {
+        string Id PK
+        string UserName
+        string Email
+    }
+
+    Player {
+        int Id PK
+        string UserId FK "unik"
+        decimal Money
+        int Day
+        int HoursLeftInDay
+        int HousingId FK
+        int CurrentJobId FK "null = arbeidsledig"
+    }
+
+    Housing {
+        int Id PK
+        string Name
+        int Order "1 = Telt"
+        int HoursPerDay "totalt per dag"
+        decimal Rent "per natt, Telt = 0"
+    }
+
+    School {
+        int Id PK
+        string Name
+        bool IsExamOnly "true for Fullstack"
+    }
+
+    SchoolLevel {
+        int Id PK
+        int SchoolId FK
+        int Level "1 til 3"
+        string Compendium "null for Fullstack"
+    }
+
+    PlayerSchoolProgress {
+        int PlayerId PK, FK
+        int SchoolId PK, FK
+        int LevelPassed "0 til 3"
+    }
+
+    StudyQuestion {
+        int Id PK
+        int SchoolLevelId FK
+        string Text
+        string Explanation
+    }
+
+    AnswerOption {
+        int Id PK
+        int StudyQuestionId FK
+        string Text
+        bool IsCorrect
+    }
+
+    Job {
+        int Id PK
+        string Name
+        int Rank
+        decimal Wage "per jobbdag"
+        int HoursPerShift "default 4"
+        int TasksPerDay
+    }
+
+    JobPrerequisite {
+        int JobId PK, FK
+        int RequiredJobId PK, FK "må ha jobbet her"
+    }
+
+    JobRequirement {
+        int JobId PK, FK
+        int SchoolLevelId PK, FK "må ha bestått"
+    }
+
+    JobTask {
+        int Id PK
+        int JobId FK
+        string Text
+    }
+
+    JobTaskAnswer {
+        int Id PK
+        int JobTaskId FK
+        string Text
+    }
+
+    JobDay {
+        int Id PK
+        int PlayerId FK
+        int JobId FK
+        int Day
+        int TasksTotal
+        int TasksCorrect
+        bool Completed
+    }
