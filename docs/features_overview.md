@@ -1,4 +1,4 @@
-# Features L T D 
+# Features L T D
 
 ## Main features
 
@@ -9,8 +9,6 @@
 - jobb / lønn
 - studienivå / jobber tilgjengelige
 - penger /damn son
-- 
-
 
 ### Quiz
 
@@ -18,7 +16,6 @@
 - .json = questions
 - multiple choice på learning
 - insert field på jobber
-
 
 ### Jobber
 
@@ -44,24 +41,21 @@ Rekkefølge på jobber er IT Help -> stud.ass -> Office -> Startup -> Tech Corp
 - For hver oppgradering i bolig øker tiden per uke med 2? timer, fra 8-16 timer.
 - Boligene har ulik leie, der telt er helt gratis. Dersom man ikke klarer å betale måned/ukesleie, nedgradert til tidligere nivå?
 
-
-### Achievements 
+### Achievements
 
 - slacker = ikke åpne kompendiet før fullført eksamen
 - fullført alle spørsmål på en skole
 - klart eksamen på første forsøk
-- 
 
 ### Time Management
 
-tid er direkte knyttet til hus <br>
-rekkefølge på bolig: tent -> dorm -> hybel -> Apt. -> Penthouse <br>
-man legger på 2 t per upgrade <br>
+tid er direkte knyttet til hus  
+rekkefølge på bolig: tent -> dorm -> hybel -> Apt. -> Penthouse  
+man legger på 2 t per upgrade
 endre klokke til at rødt er tid du IKKE har, at viseren beveger seg mot det røde.
 
 - Tent = 8 timer til rådighet, dorm = 10 t osv.
-- 
 
 ### Money
 
-###### microtransaksjoner
+#### microtransaksjoner
