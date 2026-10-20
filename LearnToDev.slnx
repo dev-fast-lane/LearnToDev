@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LearnToDev.Mvc/LearnToDev.Mvc.csproj" />
+  <Project Path="LearnToDev.Tests/LearnToDev.Tests.csproj" />
+</Solution>
