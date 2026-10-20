@@ -7,7 +7,7 @@ Spilleren øver på spørsmål i ulike skoler og nivåer, består eksamener for 
 ## Innhold
 
 | Mappe | Beskrivelse |
-|---|---|
+| --- | --- |
 | `LearnToDev.Mvc/` | ASP.NET Core MVC-appen (Identity, EF Core, SQLite) |
 | `LearnToDev.Tests/` | Enhetstester (xUnit) |
 | `docs/` | ER-diagram, funksjonsoversikt, møtereferater og prosjektplan |
