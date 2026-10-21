@@ -76,7 +76,7 @@ Mange saker bygger på hverandre (for eksempel modellklasser, deretter DbContext
 
 - Saker som venter på andre har en liste over hva som må være ferdig først, og et *Blocked*-merke.
 - Når alt en sak venter på er merget, flyttes den til **Klar** (automatisk når en blokkerende sak lukkes, ellers flytter du den selv).
-- Ikke push en PR for en sak som fortsatt er blokkert. Koden vil ikke bygge eller må skrives om.
+- ***Ikke push en PR for en sak som fortsatt er blokkert. Koden vil ikke bygge eller må skrives om.***
 
 ### Definition of Done
 
