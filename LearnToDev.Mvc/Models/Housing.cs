@@ -18,4 +18,7 @@ public class Housing
 
     [Range(0, int.MaxValue)]
     public int Rent { get; set; }
+
+    //Lister til "Mange"-siden av relasjonene
+    public ICollection<Player> Players { get; set; } = new List<Player>();
 }

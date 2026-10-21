@@ -15,7 +15,10 @@ public class Player
     [Range(0, int.MaxValue)]
     public int Money { get; set; }
 
+    [Range(1, int.MaxValue)]
     public int Day { get; set; } = 1;
+    [Range(0, 24)]
+    public int HoursLeftInDay { get; set; }
 
     //Bolig: fremmednøkkel + navigasjon
     public int HousingId { get; set; }
@@ -26,7 +29,6 @@ public class Player
     public Job? CurrentJob { get; set; }
 
     //Lister til "Mange"-siden av relasjonene
-
     public ICollection<PlayerSchoolProgress> SchoolProgresses { get; set; } = new List<PlayerSchoolProgress>();
     public ICollection<JobDay> JobDays { get; set; } = new List<JobDay>();
 }
