@@ -7,7 +7,7 @@ public class Player
 {
     public int Id { get; set; }
 
-    //Koblingen til Identity-brukeren
+    //Link to the Identity login user. Each player has exactly one user
     [Required]
     public string UserId { get; set; } = string.Empty;
     public IdentityUser User { get; set; } = null!;
@@ -20,15 +20,15 @@ public class Player
     [Range(0, 24)]
     public int HoursLeftInDay { get; set; }
 
-    //Bolig: fremmednøkkel + navigasjon
+    //The housing the player lives in (HousingId is stored in the database, Housing gives the object)
     public int HousingId { get; set; }
     public Housing Housing { get; set; } = null!;
 
-    //null = arbeidsledig
+    //Current job. null means the player is unemployed
     public int? CurrentJobId { get; set; }
     public Job? CurrentJob { get; set; }
 
-    //Lister til "Mange"-siden av relasjonene
+    //The player's progress in schools and completed job days (one player has many of each)
     public ICollection<PlayerSchoolProgress> SchoolProgresses { get; set; } = new List<PlayerSchoolProgress>();
     public ICollection<JobDay> JobDays { get; set; } = new List<JobDay>();
 }

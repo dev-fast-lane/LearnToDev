@@ -12,13 +12,13 @@ public class Housing
     [Range(1, int.MaxValue)]
     public int Order { get; set; }
 
-    //Tenkte fra 0 til 24 timer pga antall timer per dag
+    //Total number of hours the player has per day in this housing (0-24)
     [Range(0, 24)]
     public int HoursPerDay { get; set; }
 
     [Range(0, int.MaxValue)]
     public int Rent { get; set; }
 
-    //Lister til "Mange"-siden av relasjonene
+    //Players living here (one housing has many players)
     public ICollection<Player> Players { get; set; } = new List<Player>();
 }
