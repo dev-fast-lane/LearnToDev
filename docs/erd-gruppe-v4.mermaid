@@ -30,7 +30,7 @@ erDiagram
     Player {
         int Id PK
         string UserId FK "unik"
-        decimal Money
+        int Money
         int Day
         int HoursLeftInDay
         int HousingId FK
@@ -42,7 +42,7 @@ erDiagram
         string Name
         int Order "1 = Telt"
         int HoursPerDay "totalt per dag"
-        decimal Rent "per natt, Telt = 0"
+        int Rent "per natt, Telt = 0"
     }
 
     School {
@@ -82,7 +82,7 @@ erDiagram
         int Id PK
         string Name
         int Rank
-        decimal Wage "per jobbdag"
+        int Wage "per jobbdag"
         int HoursPerShift "default 4"
         int TasksPerDay
     }
