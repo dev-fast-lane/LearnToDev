@@ -101,4 +101,4 @@ En sak er ferdig når:
 
 - [Funksjonsoversikt](docs/features_overview.md)
 - [ER-diagram v4](docs/erd-gruppe-v4.mermaid)
-- [Prosjektplan](docs/fast-lane-prosjektplan.html)
+- [Prosjektplan](docs/prosjektplan.md) (peker til Kanban-brettet)
