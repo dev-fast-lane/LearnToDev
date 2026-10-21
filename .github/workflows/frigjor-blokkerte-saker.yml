@@ -1,0 +1,64 @@
+name: Frigjør blokkerte saker
+
+# Når en sak lukkes, flyttes sakene den blokkerte til «Klar» på prosjektbrettet,
+# men bare hvis de ikke venter på andre åpne saker og fortsatt står i «Backlog».
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  frigjor:
+    if: github.event.issue.state_reason == 'completed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Flytt frigjorte saker til Klar
+        env:
+          # Personlig token med tilgang til organisasjonsprosjektet (se README/PR for oppsett)
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+          OWNER: dev-fast-lane
+          PROJECT: "2"
+        run: |
+          set -euo pipefail
+
+          blocked=$(gh api "repos/$REPO/issues/$ISSUE/dependencies/blocking" --jq '.[].number')
+          if [ -z "$blocked" ]; then
+            echo "Ingen saker er blokkert av #$ISSUE"
+            exit 0
+          fi
+
+          project_id=$(gh project view "$PROJECT" --owner "$OWNER" --format json --jq .id)
+          field_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
+            --jq '.fields[] | select(.name=="Status") | .id')
+          klar_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
+            --jq '.fields[] | select(.name=="Status") | .options[] | select(.name=="Klar") | .id')
+
+          for n in $blocked; do
+            open=$(gh api "repos/$REPO/issues/$n/dependencies/blocked_by" --jq '[.[] | select(.state=="open")] | length')
+            if [ "$open" -gt 0 ]; then
+              echo "#$n venter fortsatt på $open åpne saker"
+              continue
+            fi
+
+            item=$(gh api graphql -F n="$n" -f query='
+              query($n:Int!){repository(owner:"dev-fast-lane",name:"LearnToDev"){issue(number:$n){
+                projectItems(first:5){nodes{id project{number}
+                  fieldValueByName(name:"Status"){... on ProjectV2ItemFieldSingleSelectValue{name}}}}}}}' \
+              --jq '.data.repository.issue.projectItems.nodes[] | select(.project.number==2) | "\(.id) \(.fieldValueByName.name)"')
+
+            item_id=${item%% *}
+            status=${item#* }
+            if [ -z "$item_id" ]; then
+              echo "#$n ligger ikke på prosjektet, hopper over"
+              continue
+            fi
+            if [ "$status" != "Backlog" ]; then
+              echo "#$n har status «$status», lar den stå"
+              continue
+            fi
+
+            gh project item-edit --id "$item_id" --project-id "$project_id" \
+              --field-id "$field_id" --single-select-option-id "$klar_id"
+            echo "#$n flyttet til Klar"
+          done
