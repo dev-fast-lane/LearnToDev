@@ -6,6 +6,9 @@ on:
   pull_request:
     types: [opened, reopened, ready_for_review, edited]
 
+permissions:
+  pull-requests: read
+
 jobs:
   til-review:
     if: github.event.pull_request.draft == false
@@ -15,6 +18,8 @@ jobs:
         env:
           # Personlig token med tilgang til organisasjonsprosjektet (samme som i de andre workflowene)
           GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          # Vanlig Actions-token brukes til å lese PR-en (PROJECT_TOKEN har ikke tilgang til pull requests)
+          PR_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
           OWNER: dev-fast-lane
           REPO_NAME: LearnToDev
@@ -22,7 +27,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          issues=$(gh api graphql -F n="$PR" -f query='
+          issues=$(GH_TOKEN="$PR_TOKEN" gh api graphql -F n="$PR" -f query='
             query($n:Int!){repository(owner:"dev-fast-lane",name:"LearnToDev"){pullRequest(number:$n){
               closingIssuesReferences(first:20){nodes{number}}}}}' \
             --jq '.data.repository.pullRequest.closingIssuesReferences.nodes[].number')
