@@ -6,6 +6,9 @@ on:
   issues:
     types: [closed]
 
+permissions:
+  issues: write
+
 jobs:
   frigjor:
     if: github.event.issue.state_reason == 'completed'
@@ -15,6 +18,8 @@ jobs:
         env:
           # Personlig token med tilgang til organisasjonsprosjektet (se README/PR for oppsett)
           GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          # Vanlig Actions-token brukes til å redigere teksten i saker
+          ISSUE_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           ISSUE: ${{ github.event.issue.number }}
           OWNER: dev-fast-lane
@@ -36,6 +41,22 @@ jobs:
 
           for n in $blocked; do
             open=$(gh api "repos/$REPO/issues/$n/dependencies/blocked_by" --jq '[.[] | select(.state=="open")] | length')
+
+            # Oppdater avhengighetsteksten i saken: kryss av den ferdige saken,
+            # og bytt overskriften når alt er ferdig
+            body=$(gh api "repos/$REPO/issues/$n" --jq .body)
+            new=$body
+            for b in $(gh api "repos/$REPO/issues/$n/dependencies/blocked_by" --jq '.[] | select(.state=="closed") | .number'); do
+              new=${new//"- [ ] #$b "/"- [x] #$b "}
+            done
+            if [ "$open" -eq 0 ]; then
+              new=${new//"**⛔ Kan ikke påbegynnes før disse er ferdige:**"/"**✅ Klar til å starte. Alt den ventet på er ferdig:**"}
+            fi
+            if [ "$new" != "$body" ]; then
+              GH_TOKEN="$ISSUE_TOKEN" gh api -X PATCH "repos/$REPO/issues/$n" -f body="$new" > /dev/null
+              echo "#$n: avhengighetsteksten oppdatert"
+            fi
+
             if [ "$open" -gt 0 ]; then
               echo "#$n venter fortsatt på $open åpne saker"
               continue
