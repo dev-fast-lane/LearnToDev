@@ -47,7 +47,7 @@ Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-
 
 ### Slik jobber du, steg for steg
 
-1. **Velg en sak.** Plukk fra **Klar** (helst i gjeldende uke, se feltet *Uke*) som ingen har tatt. Saker med «⛔ Kan ikke påbegynnes før…» i beskrivelsen eller et *Blocked*-merke venter på andre saker og skal ikke startes.
+1. **Velg en sak.** Velg **bare fra Klar**, aldri direkte fra Backlog. Saksnummeret sier ingenting om rekkefølgen, så ikke velg etter det. Plukk en sak (helst i gjeldende uke, se feltet *Uke*) som ingen har tatt. Saker med «⛔ Kan ikke påbegynnes før…» i beskrivelsen eller et *Blocked*-merke venter på andre saker og skal ikke startes.
 2. **Ta den.** Sett deg selv som *assignee* og flytt saken til **Pågår**.
 3. **Lag en branch fra oppdatert `main`.** Navnet er saksnummeret og et kort navn, for eksempel `8-modellklasser`:
    ```bash
