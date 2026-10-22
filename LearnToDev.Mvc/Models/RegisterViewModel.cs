@@ -4,7 +4,7 @@ namespace LearnToDev.Mvc.Models;
 
 public class RegisterViewModel
 {
-    [Required(ErrorMessage = "Skriv inn et brukernavn")]
+    [Required(ErrorMessage = "Skriv inn et brukernavn.")]
     [Display(Name = "Brukernavn")]
     public string UserName { get; set; } = string.Empty;
     
