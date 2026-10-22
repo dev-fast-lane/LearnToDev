@@ -4,7 +4,7 @@ config:
 ---
 
 erDiagram
-    IdentityUser ||--|| Player : "har"
+    IdentityUser ||--o{ Player : "har spill"
     Housing ||--o{ Player : "bor i"
     Job |o--o{ Player : "nåværende jobb"
     Player ||--o{ PlayerSchoolProgress : "har fremgang"
@@ -29,7 +29,8 @@ erDiagram
 
     Player {
         int Id PK
-        string UserId FK "unik"
+        string UserId FK "eier, ikke unik"
+        string Name "spillnavn"
         int Money
         int Day
         int HoursLeftInDay
