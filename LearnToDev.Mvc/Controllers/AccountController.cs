@@ -15,6 +15,8 @@ public class AccountController : Controller
         _userManager = userManager;
     }
 
+    // håndterer login av allerede registrerte brukere, forhindrer brute forcing ved hjelp av PasswordSignInAsync
+    
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
     {
@@ -57,6 +59,45 @@ public class AccountController : Controller
             }
         }
         ModelState.AddModelError(string.Empty, "Ugyldig innlogging.");
+        return View(model);
+    }
+    
+    // Håndterer registrering av brukeren, og gjør noen sjekker.
+    
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View();
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var user = new IdentityUser
+        {
+            UserName = model.UserName,
+            Email = model.Email
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
         return View(model);
     }
 }
