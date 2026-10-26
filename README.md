@@ -61,7 +61,7 @@ Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-
    dotnet build
    dotnet test
    ```
-6. **Push og åpne en PR mot `main`.** PR-malen fylles ut automatisk. Skriv hva som er endret, hvordan det testes, og `Closes #saksnummer` nederst. Sett deg selv som *assignee* og velg **én annen** på gruppen som *reviewer*. Flytt saken til **Til review**.
+6. **Push og åpne en PR mot `main`.** PR-malen fylles ut automatisk. Skriv hva som er endret, hvordan det testes, og fyll inn `Closes #saksnummer` øverst. Sett deg selv som *assignee* og velg **én annen** på gruppen som *reviewer*. Saken flyttes automatisk til **Til review**, og resten av gruppen får et GitHub-varsel.
 7. **Review.** Reviewer leser koden, tester den ved behov og godkjenner eller ber om endringer. Rett opp og push på samme branch. PR-en oppdateres av seg selv.
 8. **Merge.** Når PR-en er godkjent og sjekken **Build og test** er grønn, merger du den. Saken lukkes av `Closes #…` og flyttes til **Ferdig**.
 9. **Rydd opp.** Slett branchen og hent oppdatert `main` før neste sak:
