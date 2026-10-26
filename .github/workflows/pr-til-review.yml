@@ -2,12 +2,14 @@ name: PR til Til review
 
 # Når en PR åpnes (og ikke er et utkast), flyttes sakene den lukker (Closes #nummer)
 # til «Til review» på prosjektbrettet. Saker som allerede er Til review eller Ferdig røres ikke.
+# Flyttes minst én sak, skriver workflowen en kommentar på PR-en som nevner resten av gruppa,
+# så alle får et GitHub-varsel om at noe venter på review.
 on:
   pull_request:
     types: [opened, reopened, ready_for_review, edited]
 
 permissions:
-  pull-requests: read
+  pull-requests: write
 
 jobs:
   til-review:
@@ -21,6 +23,9 @@ jobs:
           # Vanlig Actions-token brukes til å lese PR-en (PROJECT_TOKEN har ikke tilgang til pull requests)
           PR_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          # Gruppemedlemmene som skal varsles (forfatteren av PR-en hoppes over)
+          GRUPPE: JorgenEideAnskau Eonblued sebtho2104 luringmax
           OWNER: dev-fast-lane
           REPO_NAME: LearnToDev
           PROJECT: "2"
@@ -43,6 +48,7 @@ jobs:
           review_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
             --jq '.fields[] | select(.name=="Status") | .options[] | select(.name=="Til review") | .id')
 
+          flyttet=""
           for n in $issues; do
             item=$(gh api graphql -F n="$n" -f query='
               query($n:Int!){repository(owner:"dev-fast-lane",name:"LearnToDev"){issue(number:$n){
@@ -64,4 +70,19 @@ jobs:
             gh project item-edit --id "$item_id" --project-id "$project_id" \
               --field-id "$field_id" --single-select-option-id "$review_id"
             echo "#$n flyttet til Til review"
+            flyttet="$flyttet #$n"
           done
+
+          if [ -z "$flyttet" ]; then
+            echo "Ingen saker ble flyttet, sender ikke varsel"
+            exit 0
+          fi
+
+          mottakere=""
+          for m in $GRUPPE; do
+            [ "$m" = "$AUTHOR" ] || mottakere="$mottakere @$m"
+          done
+
+          GH_TOKEN="$PR_TOKEN" gh pr comment "$PR" --repo "$OWNER/$REPO_NAME" \
+            --body "Klar for review:$flyttet er flyttet til **Til review**.$mottakere"
+          echo "Varslet:$mottakere"
