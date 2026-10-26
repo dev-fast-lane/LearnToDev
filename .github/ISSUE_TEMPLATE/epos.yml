@@ -1,0 +1,18 @@
+name: Epos
+description: Samlesak med under-saker.
+title: "Epos: "
+labels: [epos]
+type: Feature
+body:
+  - type: textarea
+    id: mal
+    attributes:
+      label: Mål
+      description: Hva skal eposet oppnå?
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        Legg til under-saker etter at eposet er opprettet (**Create sub-issue** nederst i saken).
