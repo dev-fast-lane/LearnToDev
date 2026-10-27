@@ -12,6 +12,10 @@ public class Player
     public string UserId { get; set; } = string.Empty;
     public IdentityUser User { get; set; } = null!;
 
+    //The game name the user picks on the start screen (max 30 characters)
+    [Required, StringLength(30)]
+    public string Name { get; set; } = string.Empty;
+
     [Range(0, int.MaxValue)]
     public int Money { get; set; }
 
