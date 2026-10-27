@@ -6,11 +6,11 @@ Spilleren øver på spørsmål i ulike skoler og nivåer, består eksamener for 
 
 ## Innhold
 
-| Mappe | Beskrivelse |
-| --- | --- |
-| `LearnToDev.Mvc/` | ASP.NET Core MVC-appen (Identity, EF Core, SQLite) |
-| `LearnToDev.Tests/` | Enhetstester (xUnit) |
-| `docs/` | ER-diagram, funksjonsoversikt, møtereferater og prosjektplan |
+| Mappe               | Beskrivelse                                                  |
+| ------------------- | ------------------------------------------------------------ |
+| `LearnToDev.Mvc/`   | ASP.NET Core MVC-appen (Identity, EF Core, SQLite)           |
+| `LearnToDev.Tests/` | Enhetstester (xUnit)                                         |
+| `docs/`             | ER-diagram, funksjonsoversikt, møtereferater og prosjektplan |
 
 ## Kom i gang
 
@@ -31,24 +31,36 @@ Kjør testene:
 dotnet test
 ```
 
+## Legge til spørsmål
+
+Skolene og spørsmålene ligger som JSON i `LearnToDev.Mvc/Data/Seed/`, én fil per skole
+(se `frontend.json` som eksempel). Strukturen er skole → nivåer → spørsmål → svaralternativer:
+
+- `name`, `isExamOnly` på skolen
+- `level` (1–3) og `compendium` på hvert nivå (`null` for Fullstack)
+- `text` og `explanation` på hvert spørsmål
+- fire `answerOptions` med `text` og `isCorrect`, der nøyaktig ett er `true`
+
+Id-er skal ikke være med. Databasen lager dem selv.
+
 ## Arbeidsprosess
 
 Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-lane/projects/2). Hver oppgave er en sak (issue), og én sak = én branch = én PR.
 
 ### Statuskolonner
 
-| Kolonne | Betydning |
-| --- | --- |
-| **Backlog** | Planlagt, men ikke klar. Kan være blokkert av andre saker |
-| **Klar** | Tydelig omfang og ingen åpne blokkeringer. Trygg å plukke |
-| **Pågår** | Noen jobber med den. Maks 2 per person |
-| **Til review** | PR er åpen og trenger én reviewer |
-| **Ferdig** | Merget og oppfyller Definition of Done |
+| Kolonne        | Betydning                                                 |
+| -------------- | --------------------------------------------------------- |
+| **Backlog**    | Planlagt, men ikke klar. Kan være blokkert av andre saker |
+| **Klar**       | Tydelig omfang og ingen åpne blokkeringer. Trygg å plukke |
+| **Pågår**      | Noen jobber med den. Maks 2 per person                    |
+| **Til review** | PR er åpen og trenger én reviewer                         |
+| **Ferdig**     | Merget og oppfyller Definition of Done                    |
 
 ### Slik jobber du, steg for steg
 
-1. **Velg en sak.** Velg **bare fra Klar**, aldri direkte fra Backlog. Saksnummeret sier ingenting om rekkefølgen, så ikke velg etter det. Plukk en sak (helst i gjeldende uke, se feltet *Uke*) som ingen har tatt. Saker med «⛔ Kan ikke påbegynnes før…» i beskrivelsen eller et *Blocked*-merke venter på andre saker og skal ikke startes.
-2. **Ta den.** Sett deg selv som *assignee* og flytt saken til **Pågår**.
+1. **Velg en sak.** Velg **bare fra Klar**, aldri direkte fra Backlog. Saksnummeret sier ingenting om rekkefølgen, så ikke velg etter det. Plukk en sak (helst i gjeldende uke, se feltet _Uke_) som ingen har tatt. Saker med «⛔ Kan ikke påbegynnes før…» i beskrivelsen eller et _Blocked_-merke venter på andre saker og skal ikke startes.
+2. **Ta den.** Sett deg selv som _assignee_ og flytt saken til **Pågår**.
 3. **Lag en branch fra oppdatert `main`.** Navnet er saksnummeret og et kort navn, for eksempel `8-modellklasser`:
 
    ```bash
@@ -65,7 +77,7 @@ Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-
    dotnet test
    ```
 
-6. **Push og åpne en PR mot `main`.** PR-malen fylles ut automatisk. Skriv hva som er endret, hvordan det testes, og fyll inn `Closes #saksnummer` øverst. Sett deg selv som *assignee* og velg **én annen** på gruppen som *reviewer*. Saken flyttes automatisk til **Til review**, og resten av gruppen får et GitHub-varsel.
+6. **Push og åpne en PR mot `main`.** PR-malen fylles ut automatisk. Skriv hva som er endret, hvordan det testes, og fyll inn `Closes #saksnummer` øverst. Sett deg selv som _assignee_ og velg **én annen** på gruppen som _reviewer_. Saken flyttes automatisk til **Til review**, og resten av gruppen får et GitHub-varsel.
 7. **Review.** Reviewer leser koden, tester den ved behov og godkjenner eller ber om endringer. Rett opp og push på samme branch. PR-en oppdateres av seg selv.
 8. **Merge.** Når PR-en er godkjent og sjekken **Build og test** er grønn, merger du den. Saken lukkes av `Closes #…` og flyttes til **Ferdig**.
 9. **Rydd opp.** Slett branchen og hent oppdatert `main` før neste sak:
@@ -79,9 +91,9 @@ Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-
 
 Mange saker bygger på hverandre (for eksempel modellklasser, deretter DbContext, deretter migrering). Derfor:
 
-- Saker som venter på andre har en liste over hva som må være ferdig først, og et *Blocked*-merke.
+- Saker som venter på andre har en liste over hva som må være ferdig først, og et _Blocked_-merke.
 - Når alt en sak venter på er merget, flyttes den til **Klar** (automatisk når en blokkerende sak lukkes, ellers flytter du den selv).
-- ***Ikke push en PR for en sak som fortsatt er blokkert. Koden vil ikke bygge eller må skrives om.***
+- **_Ikke push en PR for en sak som fortsatt er blokkert. Koden vil ikke bygge eller må skrives om._**
 
 ### Definition of Done
 
