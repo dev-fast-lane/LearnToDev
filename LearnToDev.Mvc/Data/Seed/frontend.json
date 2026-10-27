@@ -1,0 +1,22 @@
+{
+    "name": "Frontend",
+    "isExamOnly": false,
+    "levels": [
+        {
+            "level": 1,
+            "compendium": "HTML describes the structure of a web page using elements such as headings, paragraphs and links. CSS decides how the elements look.",
+            "questions": [
+                {
+                    "text": "What does HTML stand for?",
+                    "explanation": "HTML stands for HyperText Markup Language. It's a markup language that describes the structure of a web page, not a programming language.",
+                    "answerOptions": [
+                        {"text": "HyperText Markup Language", "isCorrect": true},
+                        {"text": "HighText Machine Language", "isCorrect": false},
+                        {"text": "Hyperlink and Text Management Language", "isCorrect": false},
+                        {"text": "Home Tool Markup Language", "isCorrect": false}
+                    ]
+                }
+            ]
+        }  
+    ]
+}
