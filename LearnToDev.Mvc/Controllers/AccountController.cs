@@ -118,4 +118,11 @@ public class AccountController : Controller
         _logger.LogInformation("Bruker {UserId} logget ut.", userId);
         return RedirectToAction("Index", "Home");
     }
+    // vises når en innlogget bruker mangler rolle til en side (Identity sender hit automatisk)
+    
+    [HttpGet]
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
 }
