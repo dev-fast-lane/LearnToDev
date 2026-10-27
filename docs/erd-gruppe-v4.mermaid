@@ -4,7 +4,7 @@ config:
 ---
 
 erDiagram
-    IdentityUser ||--|| Player : "har"
+    IdentityUser ||--o{ Player : "har spill"
     Housing ||--o{ Player : "bor i"
     Job |o--o{ Player : "nåværende jobb"
     Player ||--o{ PlayerSchoolProgress : "har fremgang"
@@ -29,8 +29,9 @@ erDiagram
 
     Player {
         int Id PK
-        string UserId FK "unik"
-        decimal Money
+        string UserId FK "eier, ikke unik"
+        string Name "spillnavn"
+        int Money
         int Day
         int HoursLeftInDay
         int HousingId FK
@@ -42,7 +43,7 @@ erDiagram
         string Name
         int Order "1 = Telt"
         int HoursPerDay "totalt per dag"
-        decimal Rent "per natt, Telt = 0"
+        int Rent "per natt, Telt = 0"
     }
 
     School {
@@ -82,7 +83,7 @@ erDiagram
         int Id PK
         string Name
         int Rank
-        decimal Wage "per jobbdag"
+        int Wage "per jobbdag"
         int HoursPerShift "default 4"
         int TasksPerDay
     }

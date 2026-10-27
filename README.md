@@ -50,21 +50,26 @@ Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-
 1. **Velg en sak.** Velg **bare fra Klar**, aldri direkte fra Backlog. Saksnummeret sier ingenting om rekkefølgen, så ikke velg etter det. Plukk en sak (helst i gjeldende uke, se feltet *Uke*) som ingen har tatt. Saker med «⛔ Kan ikke påbegynnes før…» i beskrivelsen eller et *Blocked*-merke venter på andre saker og skal ikke startes.
 2. **Ta den.** Sett deg selv som *assignee* og flytt saken til **Pågår**.
 3. **Lag en branch fra oppdatert `main`.** Navnet er saksnummeret og et kort navn, for eksempel `8-modellklasser`:
+
    ```bash
    git checkout main
    git pull
    git checkout -b 8-modellklasser
    ```
+
 4. **Jobb og commit ofte.** Bruk korte meldinger i imperativ som sier hva som er gjort, for eksempel `Legg til Player-modellen`.
 5. **Sjekk før du pusher.** `dotnet build` skal gi **0 advarsler**, og `dotnet test` skal være grønn:
+
    ```bash
    dotnet build
    dotnet test
    ```
-6. **Push og åpne en PR mot `main`.** PR-malen fylles ut automatisk. Skriv hva som er endret, hvordan det testes, og `Closes #saksnummer` nederst. Sett deg selv som *assignee* og velg **én annen** på gruppen som *reviewer*. Flytt saken til **Til review**.
+
+6. **Push og åpne en PR mot `main`.** PR-malen fylles ut automatisk. Skriv hva som er endret, hvordan det testes, og fyll inn `Closes #saksnummer` øverst. Sett deg selv som *assignee* og velg **én annen** på gruppen som *reviewer*. Saken flyttes automatisk til **Til review**, og resten av gruppen får et GitHub-varsel.
 7. **Review.** Reviewer leser koden, tester den ved behov og godkjenner eller ber om endringer. Rett opp og push på samme branch. PR-en oppdateres av seg selv.
 8. **Merge.** Når PR-en er godkjent og sjekken **Build og test** er grønn, merger du den. Saken lukkes av `Closes #…` og flyttes til **Ferdig**.
 9. **Rydd opp.** Slett branchen og hent oppdatert `main` før neste sak:
+
    ```bash
    git checkout main
    git pull

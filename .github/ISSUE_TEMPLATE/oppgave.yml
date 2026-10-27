@@ -1,0 +1,28 @@
+name: Oppgave
+description: En konkret sak én person kan plukke og gjøre ferdig.
+type: Task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Legg til **R-label** for kravet saken dekker i sidefeltet.
+        Når saken er opprettet: sett **Subapp**, **Prioritet**, **Størrelse** og **Uke** på brettet.
+
+  - type: textarea
+    id: hva
+    attributes:
+      label: Hva
+      description: Hva skal gjøres, og hvorfor?
+    validations:
+      required: true
+
+  - type: textarea
+    id: ferdig-nar
+    attributes:
+      label: Ferdig når
+      description: Hva må være sant før saken kan lukkes?
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true

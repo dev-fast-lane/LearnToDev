@@ -1,0 +1,88 @@
+name: PR til Til review
+
+# Når en PR åpnes (og ikke er et utkast), flyttes sakene den lukker (Closes #nummer)
+# til «Til review» på prosjektbrettet. Saker som allerede er Til review eller Ferdig røres ikke.
+# Flyttes minst én sak, skriver workflowen en kommentar på PR-en som nevner resten av gruppa,
+# så alle får et GitHub-varsel om at noe venter på review.
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, edited]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  til-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Flytt lukkede saker til Til review
+        env:
+          # Personlig token med tilgang til organisasjonsprosjektet (samme som i de andre workflowene)
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          # Vanlig Actions-token brukes til å lese PR-en (PROJECT_TOKEN har ikke tilgang til pull requests)
+          PR_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          # Gruppemedlemmene som skal varsles (forfatteren av PR-en hoppes over)
+          GRUPPE: JorgenEideAnskau Eonblued sebtho2104 luringmax
+          OWNER: dev-fast-lane
+          REPO_NAME: LearnToDev
+          PROJECT: "2"
+        run: |
+          set -euo pipefail
+
+          issues=$(GH_TOKEN="$PR_TOKEN" gh api graphql -F n="$PR" -f query='
+            query($n:Int!){repository(owner:"dev-fast-lane",name:"LearnToDev"){pullRequest(number:$n){
+              closingIssuesReferences(first:20){nodes{number}}}}}' \
+            --jq '.data.repository.pullRequest.closingIssuesReferences.nodes[].number')
+
+          if [ -z "$issues" ]; then
+            echo "PR #$PR lukker ingen saker (mangler Closes #nummer), ingenting å flytte"
+            exit 0
+          fi
+
+          project_id=$(gh project view "$PROJECT" --owner "$OWNER" --format json --jq .id)
+          field_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
+            --jq '.fields[] | select(.name=="Status") | .id')
+          review_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
+            --jq '.fields[] | select(.name=="Status") | .options[] | select(.name=="Til review") | .id')
+
+          flyttet=""
+          for n in $issues; do
+            item=$(gh api graphql -F n="$n" -f query='
+              query($n:Int!){repository(owner:"dev-fast-lane",name:"LearnToDev"){issue(number:$n){
+                projectItems(first:5){nodes{id project{number}
+                  fieldValueByName(name:"Status"){... on ProjectV2ItemFieldSingleSelectValue{name}}}}}}}' \
+              --jq '.data.repository.issue.projectItems.nodes[] | select(.project.number==2) | "\(.id) \(.fieldValueByName.name)"')
+
+            item_id=${item%% *}
+            status=${item#* }
+            if [ -z "$item_id" ]; then
+              echo "#$n ligger ikke på prosjektet, hopper over"
+              continue
+            fi
+            if [ "$status" = "Til review" ] || [ "$status" = "Ferdig" ]; then
+              echo "#$n har allerede status «$status», lar den stå"
+              continue
+            fi
+
+            gh project item-edit --id "$item_id" --project-id "$project_id" \
+              --field-id "$field_id" --single-select-option-id "$review_id"
+            echo "#$n flyttet til Til review"
+            flyttet="$flyttet #$n"
+          done
+
+          if [ -z "$flyttet" ]; then
+            echo "Ingen saker ble flyttet, sender ikke varsel"
+            exit 0
+          fi
+
+          mottakere=""
+          for m in $GRUPPE; do
+            [ "$m" = "$AUTHOR" ] || mottakere="$mottakere @$m"
+          done
+
+          GH_TOKEN="$PR_TOKEN" gh pr comment "$PR" --repo "$OWNER/$REPO_NAME" \
+            --body "Klar for review:$flyttet er flyttet til **Til review**.$mottakere"
+          echo "Varslet:$mottakere"
