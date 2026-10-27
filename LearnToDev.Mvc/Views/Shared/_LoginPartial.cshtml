@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+// Dette bestemmer hva som vises avhengig av om du er logget inn eller ikke
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    // Logget inn
+    {
+        <li class="nav-item">
+            <span class="nav-link text-dark">@User.Identity?.Name</span>
+        </li>
+        <li class="nav-item">
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logg ut</button>
+            </form>
+        </li>
+    }
+    // Ikke logget inn
+    else 
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Registrer deg</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Logg inn</a>
+        </li>
+    }
+</ul>

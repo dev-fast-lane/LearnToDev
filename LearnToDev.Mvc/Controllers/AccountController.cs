@@ -16,6 +16,7 @@ public class AccountController : Controller
     }
 
     // håndterer login av allerede registrerte brukere, forhindrer brute forcing ved hjelp av PasswordSignInAsync
+    // SignInAsync lager en innloggingscookie
     
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
@@ -99,5 +100,15 @@ public class AccountController : Controller
         }
 
         return View(model);
+    }
+    
+    // logger ut brukeren (SignOutAsync sletter innloggingscookien) 
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
     }
 }
