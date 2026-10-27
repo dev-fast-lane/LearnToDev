@@ -8,11 +8,13 @@ public class AccountController : Controller
 {
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly ILogger<AccountController> _logger;
 
-    public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<AccountController> logger)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _logger = logger;
     }
 
     // håndterer login av allerede registrerte brukere, forhindrer brute forcing ved hjelp av PasswordSignInAsync
@@ -45,6 +47,7 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Bruker {UserId} logget inn.", user.Id);
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -55,6 +58,7 @@ public class AccountController : Controller
 
             if (result.IsLockedOut)
             {
+                _logger.LogWarning("Bruker {UserId} er låst ute etter for mange feilforsøk.", user.Id);
                 ModelState.AddModelError(string.Empty, "For mange feilforsøk. Prøv igjen om noen minutter.");
                 return View(model);
             }
@@ -90,6 +94,7 @@ public class AccountController : Controller
 
         if (result.Succeeded)
         {
+            _logger.LogInformation("Ny bruker {UserId} registrert.", user.Id);
             await _signInManager.SignInAsync(user, isPersistent: false);
             return RedirectToAction("Index", "Home");
         }
@@ -108,7 +113,9 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
+        var userId = _userManager.GetUserId(User);
         await _signInManager.SignOutAsync();
+        _logger.LogInformation("Bruker {UserId} logget ut.", userId);
         return RedirectToAction("Index", "Home");
     }
 }
