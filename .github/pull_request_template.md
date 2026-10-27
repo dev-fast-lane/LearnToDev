@@ -22,8 +22,7 @@ Closes #
 
 ## Sjekkliste (Definition of Done)
 **Alltid**
-- [ ] 0 advarsler på `dotnet build` / `npm run build`
-- [ ] Gjennomgått av ett annet gruppemedlem
+- [ ] 0 advarsler på `npm run build` (`dotnet build` sjekkes av CI)
 
 **Hvis koden i appen er endret** <!-- Slett denne delen hvis PR-en ikke rører appen (f.eks. docs, ERD, workflows). -->
 - [ ] Validering på både klient og server (der det er relevant)
