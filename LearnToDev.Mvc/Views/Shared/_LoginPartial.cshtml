@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
-// Dette bestemmer hva som vises avhengig av om du er logget inn eller ikke
+@* Dette bestemmer hva som vises avhengig av om du er logget inn eller ikke *@
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
-    // Logget inn
     {
+        // Logget inn
         <li class="nav-item">
             <span class="nav-link text-dark">@User.Identity?.Name</span>
         </li>
@@ -16,9 +16,9 @@
             </form>
         </li>
     }
-    // Ikke logget inn
     else 
     {
+        // Ikke logget inn
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Registrer deg</a>
         </li>
