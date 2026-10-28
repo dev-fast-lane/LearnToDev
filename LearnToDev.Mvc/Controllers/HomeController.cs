@@ -36,4 +36,16 @@ public class HomeController : Controller
         
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    
+    public IActionResult Status(int code)
+    {
+        var feature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+        
+        if (code == 404)
+        {
+            _logger.LogWarning("Fant ikke siden {Path}.", feature?.OriginalPath);
+            return View("NotFound");
+        }
+        return View("Error");
+    }
 }
