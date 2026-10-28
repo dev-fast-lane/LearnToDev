@@ -93,6 +93,35 @@ En sak er ferdig når:
 - [ ] Det finnes en test hvis saken berører en domeneregel
 - [ ] Ett annet gruppemedlem har gjennomgått PR-en
 
+### Logging og feilhåndtering
+
+Uventede feil fanges globalt. Brukeren ser en vennlig feilside (`Views/Shared/Error.cshtml`), og feilen logges av `HomeController.Error`. Sider som ikke finnes, gir `Views/Shared/NotFound.cshtml`. Du trenger ikke `try`/`catch` for å unngå krasj, bare der du vil gi brukeren en egen melding.
+
+Hent `ILogger<T>` i konstruktøren, på samme måte som andre tjenester:
+
+```csharp
+private readonly ILogger<AccountController> _logger;
+
+public AccountController(ILogger<AccountController> logger)
+{
+    _logger = logger;
+}
+```
+
+Bruk plassholdere i stedet for `$"..."`, så verdien lagres som et eget felt i loggen:
+
+```csharp
+_logger.LogInformation("Bruker {UserId} logget inn.", user.Id);
+```
+
+| Nivå | Når |
+| --- | --- |
+| `LogInformation` | Vanlige, viktige hendelser (innlogging, eksamen bestått, oppsigelse) |
+| `LogWarning` | Noe er avvist eller uvanlig (låst konto, siden finnes ikke, ugyldig handling) |
+| `LogError` | Et unntak. Send unntaket som første argument: `_logger.LogError(ex, "...")` |
+
+Logg aldri passord eller persondata som e-post og navn. Bruk ID-er.
+
 ### Regler
 
 - Maks **2 saker per person** i Pågår.
