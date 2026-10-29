@@ -4,10 +4,72 @@
     "schoolLevels": [
         {
             "level": 1,
-            "compendium": "Kompendieteksten for nivået (null for Fullstack)",
+            "compendium": "Kompendieteksten for nivå 1",
             "studyQuestions": [
                 {
-                    "text": "Spørsmålsteksten",
+                    "text": "Spørsmål 1 på nivå 1",
+                    "explanation": "Forklaringen som vises etter at man har svart",
+                    "answerOptions": [
+                        { "text": "Riktig svar", "isCorrect": true },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Spørsmål 2 på nivå 1",
+                    "explanation": "Forklaringen som vises etter at man har svart",
+                    "answerOptions": [
+                        { "text": "Riktig svar", "isCorrect": true },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 2,
+            "compendium": "Kompendieteksten for nivå 2",
+            "studyQuestions": [
+                {
+                    "text": "Spørsmål 1 på nivå 2",
+                    "explanation": "Forklaringen som vises etter at man har svart",
+                    "answerOptions": [
+                        { "text": "Riktig svar", "isCorrect": true },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Spørsmål 2 på nivå 2",
+                    "explanation": "Forklaringen som vises etter at man har svart",
+                    "answerOptions": [
+                        { "text": "Riktig svar", "isCorrect": true },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 3,
+            "compendium": "Kompendieteksten for nivå 3",
+            "studyQuestions": [
+                {
+                    "text": "Spørsmål 1 på nivå 3",
+                    "explanation": "Forklaringen som vises etter at man har svart",
+                    "answerOptions": [
+                        { "text": "Riktig svar", "isCorrect": true },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Spørsmål 2 på nivå 3",
                     "explanation": "Forklaringen som vises etter at man har svart",
                     "answerOptions": [
                         { "text": "Riktig svar", "isCorrect": true },
