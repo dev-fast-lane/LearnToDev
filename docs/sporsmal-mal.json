@@ -1,0 +1,22 @@
+{
+    "name": "Navnet på skolen, f.eks. Frontend",
+    "isExamOnly": false,
+    "levels": [
+        {
+            "level": 1,
+            "compendium": "Kompendieteksten for nivået (null for Fullstack)",
+            "questions": [
+                {
+                    "text": "Spørsmålsteksten",
+                    "explanation": "Forklaringen som vises etter at man har svart",
+                    "answerOptions": [
+                        { "text": "Riktig svar", "isCorrect": true },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false },
+                        { "text": "Feil svar", "isCorrect": false }
+                    ]
+                }
+            ]
+        }
+    ]
+}
