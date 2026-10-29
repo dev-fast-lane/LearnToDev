@@ -1,11 +1,11 @@
 {
     "name": "Navnet på skolen, f.eks. Frontend",
     "isExamOnly": false,
-    "levels": [
+    "schoolLevels": [
         {
             "level": 1,
             "compendium": "Kompendieteksten for nivået (null for Fullstack)",
-            "questions": [
+            "studyQuestions": [
                 {
                     "text": "Spørsmålsteksten",
                     "explanation": "Forklaringen som vises etter at man har svart",
