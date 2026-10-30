@@ -1,16 +1,16 @@
 # Beslutningslogg: spillregler
 
-Denne loggen forklarer hvorfor spillregnele i [spilltall](spilltall.md) er som de er. Hver beslutning følger malen Kontekst, Beslutning, Konsekvens og Dato.
+Denne loggen forklarer hvorfor spillreglene i [spilltall](spilltall.md) er som de er. Hver beslutning følger malen Kontekst, Beslutning, Konsekvenser og Dato.
 
 ## ADR 1: Fullstack er bare eksamen
 
-**DATO:** 28.10.2026
+**Dato:** 28.10.2026
 
 **Kontekst:** Fullstack skal vise at spilleren behersker frontend, backend og database samlet, ikke ett fag til.
 
 **Beslutning:** Fullstack har ingen øvingsspørsmål eller kompendium, bare eksamen (`IsExamOnly = true`). For å ta Fullstack på et nivå må spilleren ha bestått samme nivå på alle de andre skolene. Eksamensspørsmålene trekkes fra de andre skolene.
 
-**Konsekvenser:** Ingen egne spørsmål å skrive for Fullstack, og ingen Kompendium (`Compendium = null`). Fullstack blir en siste "boss" før de låser opp neste nivå, og får tilgang til andre jobber.
+**Konsekvenser:** Ingen egne spørsmål å skrive for Fullstack, og ingen kompendium (`Compendium = null`). Fullstack blir en siste "boss" før de låser opp neste nivå, og får tilgang til andre jobber.
 
 ## ADR 2: Jobbstigen
 
@@ -28,6 +28,10 @@ Denne loggen forklarer hvorfor spillregnele i [spilltall](spilltall.md) er som d
 | Startup   | Nivå 2 + Fullstack 2, og jobbet på Office    | 260          | 6 t   |
 | Tech Corp | Nivå 3 + Fullstack 3, og jobbet på Startup   | 450          | 8 t   |
 
+Kravene sikrer at spilleren går gjennom stigen i riktig rekkefølge: skolenivået viser
+at hen kan faget, Fullstack viser at hen behersker alle fagene samlet, og kravet om
+tidligere jobb gjør at man ikke kan hoppe over trinn.
+
 Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som hører til jobben) stiger på hvert nivå: 20, 35, 70, 100 og 150. Lønnen blir utbetalt på starten av hver nye dag.
 
 **Konsekvenser:** Spilleren må både lære (skole og eksamen) og jobbe for å komme videre. Kravene lagres i `JobRequirement` (skolenivå) og `JobPrerequisite` (tidligere jobb). Bedre jobber har lengre skift, så de krever en bolig med flere timer.
@@ -38,7 +42,7 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 
 **Kontekst:** Arbeid må ha en konsekvens hvis spilleren svarer dårlig, men én dårlig dag skal ikke ødelegge spillet.
 
-**Beslutning:** Et skift har 5 oppgaver. 0–2 riktige gir en advarsel. Etter to advarsler får du sparken. Advarselene nullstilles etter 5 dager.
+**Beslutning:** Et skift har 5 oppgaver. 0–2 riktige gir en advarsel. Etter to advarsler får du sparken. Advarslene nullstilles etter 5 dager.
 
 **Konsekvenser:** Det er en risiko for at spilleren får sparken, og progresjonen stopper litt opp. Spilleren må da finne seg en ny jobb, og kan heller ikke søke på den jobben den fikk sparken fra, før det har gått 5 dager.
 
@@ -76,4 +80,4 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 
 Øving koster 1 time per spørsmål. Med rundt 15 spørsmål per nivå tar øvingen omtrent like lang tid (ca. 2 dager) som å spare til eksamen.
 
-**Konsekvenser:** Eksamen er en liten brems økonomisk, men et tydelig kunnskapskrav. ⚠️ Nytt forsøk koster samme pris og tid.
+**Konsekvenser:** Eksamen er en liten brems økonomisk, men et tydelig kunnskapskrav. Nytt forsøk koster samme pris og tid.
