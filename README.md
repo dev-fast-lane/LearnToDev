@@ -107,3 +107,4 @@ En sak er ferdig når:
 - [Funksjonsoversikt](docs/features_overview.md)
 - [ER-diagram v4](docs/erd-gruppe-v4.mermaid)
 - [Prosjektplan](docs/prosjektplan.md) (peker til Kanban-brettet)
+- [Beslutningslogg for spillreglene](docs/beslutningslogg.md)
