@@ -10,7 +10,7 @@ Denne loggen forklarer hvorfor spillreglene i [spilltall](spilltall.md) er som d
 
 **Beslutning:** Fullstack har ingen øvingsspørsmål eller kompendium, bare eksamen (`IsExamOnly = true`). For å ta Fullstack på et nivå må spilleren ha bestått samme nivå på alle de andre skolene. Eksamensspørsmålene trekkes fra de andre skolene.
 
-**Konsekvenser:** Ingen egne spørsmål å skrive for Fullstack, og ingen kompendium (`Compendium = null`). Fullstack blir en siste "boss" før de låser opp neste nivå, og får tilgang til andre jobber.
+**Konsekvenser:** Ingen egne spørsmål å skrive for Fullstack, og ingen kompendium (`Compendium = null`). Fullstack blir en siste "boss" på hvert nivå, og gir tilgang til bedre jobber.
 
 ## ADR 2: Jobbstigen
 
@@ -24,9 +24,9 @@ Denne loggen forklarer hvorfor spillreglene i [spilltall](spilltall.md) er som d
 | --------- | -------------------------------------------- | ------------ | ----- |
 | IT Help   | Alltid åpen                                  | 20           | 4 t   |
 | Stud.ass  | Bestått nivå 1 på en skole                   | 75           | 4 t   |
-| Office    | Nivå 1 + Fullstack 1, og jobbet som Stud.ass | 150          | 6 t   |
-| Startup   | Nivå 2 + Fullstack 2, og jobbet på Office    | 260          | 6 t   |
-| Tech Corp | Nivå 3 + Fullstack 3, og jobbet på Startup   | 450          | 8 t   |
+| Office    | Fullstack 1, og jobbet som Stud.ass          | 150          | 6 t   |
+| Startup   | Fullstack 2, og jobbet på Office             | 260          | 6 t   |
+| Tech Corp | Fullstack 3, og jobbet på Startup            | 450          | 8 t   |
 
 Kravene sikrer at spilleren går gjennom stigen i riktig rekkefølge: skolenivået viser
 at hen kan faget, Fullstack viser at hen behersker alle fagene samlet, og kravet om
@@ -34,7 +34,7 @@ tidligere jobb gjør at man ikke kan hoppe over trinn.
 
 Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som hører til jobben) stiger på hvert nivå: 20, 35, 70, 100 og 150. Lønnen blir utbetalt på starten av hver nye dag.
 
-**Konsekvenser:** Spilleren må både lære (skole og eksamen) og jobbe for å komme videre. Kravene lagres i `JobRequirement` (skolenivå) og `JobPrerequisite` (tidligere jobb). Bedre jobber har lengre skift, så de krever en bolig med flere timer.
+**Konsekvenser:** Spilleren må både lære (skole og eksamen) og jobbe for å komme videre. Kravene lagres i `JobRequirement` (skolenivå) og `JobPrerequisite` (tidligere jobb). Det holder å ha bestått ett av nivåene i `JobRequirement`: Stud.ass har én rad per nivå 1-skole, mens Office, Startup og Tech Corp bare har én rad (Fullstack på sitt nivå). Bedre jobber har lengre skift, så det blir mindre tid igjen til øving med mindre spilleren flytter til en bolig med flere timer.
 
 ## ADR 3: Oppsigelse
 
@@ -42,9 +42,9 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 
 **Kontekst:** Arbeid må ha en konsekvens hvis spilleren svarer dårlig, men én dårlig dag skal ikke ødelegge spillet.
 
-**Beslutning:** Et skift har 5 oppgaver. 0–2 riktige gir en advarsel. Etter to advarsler får du sparken. Advarslene nullstilles etter 5 dager.
+**Beslutning:** Et skift har 5 oppgaver. 0–2 riktige gir en advarsel. Etter to advarsler får du sparken. Advarslene nullstilles 5 dager etter siste advarsel. Etter sparken kan man ikke søke på samme jobb før det har gått 5 dager.
 
-**Konsekvenser:** Det er en risiko for at spilleren får sparken, og progresjonen stopper litt opp. Spilleren må da finne seg en ny jobb, og kan heller ikke søke på den jobben den fikk sparken fra, før det har gått 5 dager.
+**Konsekvenser:** Det er en risiko for at spilleren får sparken, og progresjonen stopper litt opp. Spilleren må da finne seg en ny jobb. `Player` må få nye felt for å lagre antall advarsler, dagen for siste advarsel, og hvilken jobb spilleren fikk sparken fra og når, så ERD og migrering må oppdateres.
 
 ## ADR 4: Husleie og Telt
 
@@ -52,7 +52,7 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 
 **Kontekst:** Penger må bety noe gjennom hele spillet. Spilleren skal ikke kunne samle opp så mye at penger mister verdi, men heller ikke ende med negativ saldo.
 
-**Beslutning:** Husleie trekkes per natt. Telt er gratis. Hver jobb har råd til sin egen bolig med litt til overs, men ikke til neste. Bedre bolig gir 2 timer mer per dag (Telt 12 t, Penthouse 20 t). Husleie blir betalt på starten av hver nye dag, så dersom spilleren ikke har råd til husleien, blir hen kastet ut til Telt i stedet for å få negative penger.
+**Beslutning:** Husleie trekkes per natt. Telt er gratis. Hver jobb har råd til sin egen bolig med litt til overs, men ikke til neste. Bedre bolig gir 2 timer mer per dag (Telt 12 t, Penthouse 20 t). Husleie blir betalt på starten av hver nye dag, etter at lønnen er utbetalt, så dersom spilleren ikke har råd til husleien, blir hen kastet ut til Telt i stedet for å få negative penger.
 
 | Bolig     | Husleie per natt | Timer per dag |
 | --------- | ---------------- | ------------- |
@@ -78,6 +78,6 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 | 2    | 100  | 3 t |
 | 3    | 200  | 4 t |
 
-Øving koster 1 time per spørsmål. Med rundt 15 spørsmål per nivå tar øvingen omtrent like lang tid (ca. 2 dager) som å spare til eksamen.
+Øving koster 1 time per spørsmål. Med rundt 15 spørsmål per nivå tar øvingen 1–2 dager, avhengig av bolig og skift. Å spare til eksamen tar omtrent 3 dager på nivå 2 og 3 med overskuddet fra jobben på nivået under.
 
 **Konsekvenser:** Eksamen er en liten brems økonomisk, men et tydelig kunnskapskrav. Nytt forsøk koster samme pris og tid.
