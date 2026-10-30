@@ -1,0 +1,48 @@
+name: Tildelt til Pågår
+
+# Når noen blir tildelt (assigned) en sak, flyttes saken til «Pågår» på prosjektbrettet,
+# men bare hvis den står i «Backlog» eller «Klar». Saker som er Til review eller Ferdig røres ikke.
+on:
+  issues:
+    types: [assigned]
+
+jobs:
+  pagar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Flytt saken til Pågår
+        env:
+          # Personlig token med tilgang til organisasjonsprosjektet (samme som i de andre workflowene)
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+          OWNER: dev-fast-lane
+          PROJECT: "2"
+        run: |
+          set -euo pipefail
+
+          item=$(gh api graphql -F n="$ISSUE" -f query='
+            query($n:Int!){repository(owner:"dev-fast-lane",name:"LearnToDev"){issue(number:$n){
+              projectItems(first:5){nodes{id project{number}
+                fieldValueByName(name:"Status"){... on ProjectV2ItemFieldSingleSelectValue{name}}}}}}}' \
+            --jq '.data.repository.issue.projectItems.nodes[] | select(.project.number==2) | "\(.id) \(.fieldValueByName.name)"')
+
+          item_id=${item%% *}
+          status=${item#* }
+          if [ -z "$item_id" ]; then
+            echo "#$ISSUE ligger ikke på prosjektet, hopper over"
+            exit 0
+          fi
+          if [ "$status" != "Backlog" ] && [ "$status" != "Klar" ]; then
+            echo "#$ISSUE har status «$status», lar den stå"
+            exit 0
+          fi
+
+          project_id=$(gh project view "$PROJECT" --owner "$OWNER" --format json --jq .id)
+          field_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
+            --jq '.fields[] | select(.name=="Status") | .id')
+          pagar_id=$(gh project field-list "$PROJECT" --owner "$OWNER" --format json \
+            --jq '.fields[] | select(.name=="Status") | .options[] | select(.name=="Pågår") | .id')
+
+          gh project item-edit --id "$item_id" --project-id "$project_id" \
+            --field-id "$field_id" --single-select-option-id "$pagar_id"
+          echo "#$ISSUE flyttet til Pågår"
