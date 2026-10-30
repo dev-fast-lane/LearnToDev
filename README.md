@@ -128,7 +128,7 @@ Logg aldri passord eller persondata som e-post og navn. Bruk ID-er.
 - Én sak = én PR. Ikke bland flere oppgaver i samme PR.
 - Ingen direkte push til `main`. Alt går via PR.
 - Fører du KI-bruk, skriv det i KI-loggen fortløpende (se `docs/`).
-- Endrer du modellen, oppdater ER-diagrammet i `docs/`.
+- Endrer du modellen, oppdater ER-diagrammet i [`docs/KI-logg.md`](docs/KI-logg.md).
 - Har du tvil om hva som skal gjøres, spør i saken eller på gruppen før du begynner.
 
 ## Dokumentasjon
