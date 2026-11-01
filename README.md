@@ -31,6 +31,20 @@ Kjør testene:
 dotnet test
 ```
 
+## Tester
+
+Testene ligger i `LearnToDev.Tests/` og bruker xUnit og Moq. Mappene speiler
+MVC-prosjektet (`Controllers/`, `Services/`). Se `Examples/ExampleServiceTests.cs`
+for et eksempel på en test som mocker et repository.
+
+Kjør alle testene fra roten av repoet:
+
+    dotnet test
+
+Testnavn følger mønsteret `Metode_Situasjon_ForventetResultat`, for eksempel
+`GetSchoolTitleAsync_SchoolDoesNotExist_ReturnsUnknownSchool`.
+
+
 ## Arbeidsprosess
 
 Alt arbeid styres fra prosjektbrettet [Kanban](https://github.com/orgs/dev-fast-lane/projects/2). Hver oppgave er en sak (issue), og én sak = én branch = én PR.
