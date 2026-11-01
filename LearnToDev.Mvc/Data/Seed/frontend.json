@@ -1,0 +1,84 @@
+{
+    "name": "Frontend",
+    "isExamOnly": false,
+    "schoolLevels": [
+        {
+            "level": 1,
+            "compendium": "HTML beskriver strukturen på en nettside med elementer som overskrifter (<h1>), avsnitt (<p>) og lenker (<a>). Et element har en start-tagg og en slutt-tagg, og kan ha attributter, for eksempel href på en lenke. CSS bestemmer hvordan elementene ser ut.",
+            "studyQuestions": [
+                {
+                    "text": "Hva står HTML for?",
+                    "explanation": "HTML står for HyperText Markup Language. Det er et markeringsspråk som beskriver strukturen på en nettside, ikke et programmeringsspråk.",
+                    "answerOptions": [
+                        { "text": "HyperText Markup Language", "isCorrect": true },
+                        { "text": "HighText Machine Language", "isCorrect": false },
+                        { "text": "Hyperlink and Text Management Language", "isCorrect": false },
+                        { "text": "Home Tool Markup Language", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hvilket HTML-element brukes for å lage en lenke?",
+                    "explanation": "<a> (anchor) lager en lenke, og adressen settes i attributtet href. <link> brukes i <head> for å koble til filer som stilark.",
+                    "answerOptions": [
+                        { "text": "<a>", "isCorrect": true },
+                        { "text": "<link>", "isCorrect": false },
+                        { "text": "<href>", "isCorrect": false },
+                        { "text": "<url>", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 2,
+            "compendium": "CSS velger elementer med selektorer: .navn velger en klasse, #navn velger en id, og et taggnavn velger alle elementer av den typen. Boksmodellen beskriver plassen rundt et element: innhold, padding, border og margin, innenfra og ut.",
+            "studyQuestions": [
+                {
+                    "text": "Hvilken CSS-selektor velger alle elementer med class=\"kort\"?",
+                    "explanation": "Punktum foran navnet velger en klasse, så .kort treffer alle elementer med klassen kort. #kort ville valgt et element med id=\"kort\".",
+                    "answerOptions": [
+                        { "text": ".kort", "isCorrect": true },
+                        { "text": "#kort", "isCorrect": false },
+                        { "text": "kort", "isCorrect": false },
+                        { "text": "*kort", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hvilken del av boksmodellen ligger mellom innholdet og rammen (border)?",
+                    "explanation": "Padding er luften mellom innholdet og rammen. Margin ligger utenfor rammen, mellom elementet og nabo-elementene.",
+                    "answerOptions": [
+                        { "text": "padding", "isCorrect": true },
+                        { "text": "margin", "isCorrect": false },
+                        { "text": "outline", "isCorrect": false },
+                        { "text": "gap", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 3,
+            "compendium": "JavaScript gjør nettsiden interaktiv. Med DOM-en (Document Object Model) kan koden finne og endre elementer, for eksempel med document.querySelector. Variabler lages med let (kan endres) eller const (kan ikke tilordnes på nytt).",
+            "studyQuestions": [
+                {
+                    "text": "Hva gjør document.querySelector(\".meny\")?",
+                    "explanation": "querySelector returnerer det første elementet som passer selektoren. For å få alle treff brukes querySelectorAll.",
+                    "answerOptions": [
+                        { "text": "Returnerer det første elementet med klassen meny", "isCorrect": true },
+                        { "text": "Returnerer alle elementer med klassen meny", "isCorrect": false },
+                        { "text": "Lager et nytt element med klassen meny", "isCorrect": false },
+                        { "text": "Sletter alle elementer med klassen meny", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hvilket nøkkelord lager en variabel som ikke kan tilordnes på nytt i JavaScript?",
+                    "explanation": "const lager en variabel som ikke kan få en ny verdi senere. let kan tilordnes på nytt, og var er den gamle måten å lage variabler på.",
+                    "answerOptions": [
+                        { "text": "const", "isCorrect": true },
+                        { "text": "let", "isCorrect": false },
+                        { "text": "var", "isCorrect": false },
+                        { "text": "static", "isCorrect": false }
+                    ]
+                }
+            ]
+        }
+    ]
+}

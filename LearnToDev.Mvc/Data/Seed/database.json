@@ -1,0 +1,84 @@
+{
+    "name": "Database",
+    "isExamOnly": false,
+    "schoolLevels": [
+        {
+            "level": 1,
+            "compendium": "En relasjonsdatabase lagrer data i tabeller med rader og kolonner. SELECT henter data, for eksempel SELECT * FROM Players. Hver tabell har en primærnøkkel, en kolonne som identifiserer hver rad unikt.",
+            "studyQuestions": [
+                {
+                    "text": "Hvilket SQL-nøkkelord brukes for å hente data fra en tabell?",
+                    "explanation": "SELECT henter data, for eksempel SELECT Name FROM Players. GET, FETCH og READ er ikke SQL-kommandoer for å hente rader.",
+                    "answerOptions": [
+                        { "text": "SELECT", "isCorrect": true },
+                        { "text": "GET", "isCorrect": false },
+                        { "text": "FETCH", "isCorrect": false },
+                        { "text": "READ", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hva er en primærnøkkel?",
+                    "explanation": "En primærnøkkel identifiserer hver rad unikt, ofte en Id-kolonne. To rader kan aldri ha samme primærnøkkel.",
+                    "answerOptions": [
+                        { "text": "En kolonne som identifiserer hver rad unikt", "isCorrect": true },
+                        { "text": "Den første kolonnen i alle tabeller", "isCorrect": false },
+                        { "text": "Et passord som beskytter tabellen", "isCorrect": false },
+                        { "text": "En kolonne som alltid inneholder tekst", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 2,
+            "compendium": "Tabeller kobles sammen med fremmednøkler: en kolonne som peker på primærnøkkelen i en annen tabell. Med JOIN kan du hente data fra flere tabeller i samme spørring. INNER JOIN gir bare rader som har en match i begge tabellene.",
+            "studyQuestions": [
+                {
+                    "text": "Hva er en fremmednøkkel?",
+                    "explanation": "En fremmednøkkel er en kolonne som peker på primærnøkkelen i en annen tabell, for eksempel HousingId i Players som peker på Id i Housings.",
+                    "answerOptions": [
+                        { "text": "En kolonne som peker på primærnøkkelen i en annen tabell", "isCorrect": true },
+                        { "text": "En nøkkel som brukes til å logge inn i databasen", "isCorrect": false },
+                        { "text": "En kopi av primærnøkkelen i samme tabell", "isCorrect": false },
+                        { "text": "En kolonne som ikke kan være tom", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hvilken JOIN gir bare rader som har en match i begge tabellene?",
+                    "explanation": "INNER JOIN tar bare med rader som finnes i begge tabellene. LEFT JOIN tar med alle rader fra den venstre tabellen, også de uten match.",
+                    "answerOptions": [
+                        { "text": "INNER JOIN", "isCorrect": true },
+                        { "text": "LEFT JOIN", "isCorrect": false },
+                        { "text": "FULL OUTER JOIN", "isCorrect": false },
+                        { "text": "CROSS JOIN", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 3,
+            "compendium": "En mange-til-mange-relasjon (N:M) lages med en koblingstabell som har fremmednøkler til begge tabellene, slik JobRequirement kobler jobber og skolenivåer. Normalisering fjerner dobbel lagring: i tredje normalform (3NF) skal ingen kolonne som ikke er nøkkel, avhenge av en annen kolonne som ikke er nøkkel.",
+            "studyQuestions": [
+                {
+                    "text": "Hvordan lages en mange-til-mange-relasjon i en relasjonsdatabase?",
+                    "explanation": "Med en koblingstabell som har en fremmednøkkel til hver av de to tabellene. I LearnToDev kobler JobRequirement jobber og skolenivåer på denne måten.",
+                    "answerOptions": [
+                        { "text": "Med en koblingstabell som har fremmednøkler til begge tabellene", "isCorrect": true },
+                        { "text": "Med en fremmednøkkel i bare den ene tabellen", "isCorrect": false },
+                        { "text": "Ved å lagre en liste med Id-er i én kolonne", "isCorrect": false },
+                        { "text": "Ved å slå de to tabellene sammen til én", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hva krever tredje normalform (3NF)?",
+                    "explanation": "I 3NF skal alle kolonner som ikke er nøkler, avhenge bare av nøkkelen, og ikke av hverandre. Da unngår man at samme opplysning lagres flere steder.",
+                    "answerOptions": [
+                        { "text": "At ingen kolonne som ikke er nøkkel, avhenger av en annen kolonne som ikke er nøkkel", "isCorrect": true },
+                        { "text": "At hver tabell har nøyaktig tre kolonner", "isCorrect": false },
+                        { "text": "At alle kolonner er av typen tekst", "isCorrect": false },
+                        { "text": "At tabellen ikke har noen primærnøkkel", "isCorrect": false }
+                    ]
+                }
+            ]
+        }
+    ]
+}
