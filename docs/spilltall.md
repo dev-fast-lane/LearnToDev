@@ -14,7 +14,8 @@
 - 3-5 out of 5 tasks correct: Good!
 - 0-2 out of 5 tasks correct: Warning!
 - 2 Warnings: Fired!
-- Warnings reset after 5 days.
+- Warnings reset 5 days after the last warning.
+- Fired: can't apply for the same job again for 5 days.
 
 ## Time
 
