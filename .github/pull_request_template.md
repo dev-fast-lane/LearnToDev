@@ -1,30 +1,12 @@
 Closes #
-<!-- Skriv saksnummeret, f.eks. Closes #12. Uten dette flyttes ikke saken til Til review, ingen får varsel, og saken lukkes ikke ved merge. -->
+<!-- Saksnummeret, f.eks. Closes #12. Uten dette flyttes ikke saken til Til review, gruppa får ikke varsel, og saken lukkes ikke ved merge. -->
 
-## Hva
-<!-- Én–to setninger: hva gjør denne PR-en, og hvorfor? -->
+## Hva og hvorfor
+<!-- Én–to setninger. «Hvorfor» trengs bare hvis det ikke allerede står i saken. -->
 
 ## Endringer
-<!-- De viktigste endringene, så reviewer vet hva hen skal se etter. -->
+<!-- De viktigste endringene, så reviewer vet hvor hen skal se. -->
 -
--
-
-## Slik tester du
-<!-- Hva må reviewer gjøre for å se at det virker? -->
-1. `git checkout <branch>`
-2.
-
-## Skjermbilder
-<!-- Valgfritt: før/etter-bilder når noe synlig er endret. Slett hvis tomt. -->
 
 ## Merk
-<!-- Valgfritt: hva er bevisst utelatt, avhengigheter, eller noe reviewer bør vite. Slett hvis tomt. -->
-
-## Sjekkliste (Definition of Done)
-**Alltid**
-- [ ] 0 advarsler på `npm run build` (`dotnet build` sjekkes av CI)
-
-**Hvis koden i appen er endret** <!-- Slett denne delen hvis PR-en ikke rører appen (f.eks. docs, ERD, workflows). -->
-- [ ] Validering på både klient og server (der det er relevant)
-- [ ] `ILogger` og feilhåndtering i koden som er endret
-- [ ] Test lagt til hvis saken berører en domeneregel
+<!-- Valgfritt: hva som er bevisst utelatt, oppfølgingssaker, eller noe reviewer bør vite. Slett hvis tomt. -->
