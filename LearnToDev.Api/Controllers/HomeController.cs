@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using LearnToDev.Mvc.Models;
+using LearnToDev.Api.Models;
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace LearnToDev.Mvc.Controllers;
+namespace LearnToDev.Api.Controllers;
 
 public class HomeController : Controller
 {

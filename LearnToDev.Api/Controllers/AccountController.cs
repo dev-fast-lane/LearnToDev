@@ -1,8 +1,8 @@
-﻿using LearnToDev.Mvc.Models;
+﻿using LearnToDev.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LearnToDev.Mvc.Controllers;
+namespace LearnToDev.Api.Controllers;
 
 public class AccountController : Controller
 {

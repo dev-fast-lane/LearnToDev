@@ -18,8 +18,8 @@ Hver sak har feltet **Uke** og en milestone som viser når den skal være ferdig
 | Uke | Datoer | Milestone | Hovedinnhold |
 | --- | --- | --- | --- |
 | U43 | 19.–25. okt | Grunnmur | Spilltall, struktur, modell, migrering, seed, Identity |
-| U44 | 26. okt–1. nov | MVC | Repositories, admin-CRUD, søk, skole og øving |
-| U45 | 2.–8. nov | MVC + API starter | Eksamen, jobb, ny dag, bolig, tester |
+| U44 | 26. okt–1. nov | API | Repositories, admin-CRUD, søk, skole og øving |
+| U45 | 2.–8. nov | API + API starter | Eksamen, jobb, ny dag, bolig, tester |
 | U46 | 9.–15. nov | API + React | Controller-tester, API, React-oppsett |
 | U47 | 16.–22. nov | React + rydding | Admin- og spillskjermer, null advarsler |
 | U48 | 23.–30. nov | Levering | Dokumentasjon, test på ren maskin, innlevering |

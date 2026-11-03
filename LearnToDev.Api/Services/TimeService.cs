@@ -1,5 +1,5 @@
-using LearnToDev.Mvc.Models;
-namespace LearnToDev.Mvc.Services;
+using LearnToDev.Api.Models;
+namespace LearnToDev.Api.Services;
 
 public record TimeSpendResult(bool Success, string? Message = null); // Record type to represent the result of trying to spend hours
 

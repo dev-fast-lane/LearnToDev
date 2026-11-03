@@ -1,4 +1,4 @@
-namespace LearnToDev.Mvc.Models;
+namespace LearnToDev.Api.Models;
 public static class GameRules
 {
     //Spilleregler for LearnToDev se [spilltall.md](/LearnToDev/Spilltall.md)

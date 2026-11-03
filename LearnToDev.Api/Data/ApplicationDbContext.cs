@@ -1,9 +1,9 @@
-using LearnToDev.Mvc.Models;
+using LearnToDev.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LearnToDev.Mvc.Data;
+namespace LearnToDev.Api.Data;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {

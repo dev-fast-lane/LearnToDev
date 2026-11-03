@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LearnToDev.Mvc.Models;
+namespace LearnToDev.Api.Models;
 
 public class PlayerSchoolProgress
 {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace LearnToDev.Mvc.Models;
+namespace LearnToDev.Api.Models;
 
 public class Player
 {

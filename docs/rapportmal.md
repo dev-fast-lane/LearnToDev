@@ -45,7 +45,7 @@ Tilhørende issue: [#77](https://github.com/dev-fast-lane/LearnToDev/issues/77)
   - [4.2 Datatilgang, repository-mønster og API-tjenestelag](#42-datatilgang-repository-mønster-og-api-tjenestelag)
 - [5. Funksjonsoversikt og sporbarhet](#5-funksjonsoversikt-og-sporbarhet)
   - [5.1 Grundig gjennomgang av CRUD-operasjoner](#51-grundig-gjennomgang-av-crud-operasjoner)
-    - [5.1.1 Underapplikasjon 1: MVC](#511-underapplikasjon-1-mvc)
+    - [5.1.1 Underapplikasjon 1: API](#511-underapplikasjon-1-mvc)
     - [5.1.2 Underapplikasjon 2: API og SPA](#512-underapplikasjon-2-api-og-spa)
   - [5.2 Arbeidsflytdiagram: Hvordan ulike brukerroller bruker applikasjonen](#52-arbeidsflytdiagram-hvordan-ulike-brukerroller-bruker-applikasjonen)
 - [6. Sikkerhet, robusthet og testing](#6-sikkerhet-robusthet-og-testing)
@@ -95,7 +95,7 @@ Ta med arkitekturdiagrammer som viser de faktiske komponentene og grensene mello
 
 ### 3.2 Sammenligning av arkitekturene
 
-Hvis prosjektet faktisk inneholder både MVC- og API/SPA-underapplikasjoner, sammenlign dataflyt, tilstandshåndtering og hvordan sidene vises. Hvis én av arkitekturene ikke finnes i prosjektet, forklar dette i stedet for å beskrive en ikke-eksisterende løsning.
+Hvis prosjektet faktisk inneholder både API- og API/SPA-underapplikasjoner, sammenlign dataflyt, tilstandshåndtering og hvordan sidene vises. Hvis én av arkitekturene ikke finnes i prosjektet, forklar dette i stedet for å beskrive en ikke-eksisterende løsning.
 
 ### 3.3 Arkitektoniske beslutningslogger (ADR-er)
 
@@ -131,7 +131,7 @@ Beskriv de viktigste funksjonene og hvordan de støtter kravene. Velg én sentra
 
 **Valgt domenemodell:** [for eksempel `StudyQuestion`, `Job` eller `Housing`]
 
-#### 5.1.1 Underapplikasjon 1: MVC
+#### 5.1.1 Underapplikasjon 1: API
 
 Beskriv oppretting, lesing, oppdatering og sletting. Følg dataflyten gjennom skjema, controller, validering, datatilgang og resultatet som vises til brukeren.
 

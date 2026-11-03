@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace LearnToDev.Mvc.Migrations
+namespace LearnToDev.Api.Migrations
 {
     /// <inheritdoc />
     public partial class AddPlayerName : Migration

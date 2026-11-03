@@ -8,7 +8,7 @@ Spilleren øver på spørsmål i ulike skoler og nivåer, består eksamener for 
 
 | Mappe | Beskrivelse |
 | --- | --- |
-| `LearnToDev.Mvc/` | ASP.NET Core MVC-appen (Identity, EF Core, SQLite) |
+| `LearnToDev.Api/` | ASP.NET Core API-appen (Identity, EF Core, SQLite) |
 | `LearnToDev.Tests/` | Enhetstester (xUnit) |
 | `docs/` | ER-diagram, funksjonsoversikt, møtereferater og prosjektplan |
 
@@ -20,7 +20,7 @@ Du trenger [.NET SDK 10](https://dotnet.microsoft.com/download).
 git clone https://github.com/dev-fast-lane/LearnToDev.git
 cd LearnToDev
 dotnet build
-dotnet watch --project LearnToDev.Mvc
+dotnet watch --project LearnToDev.Api
 ```
 
 `dotnet watch` starter appen og bygger på nytt når du lagrer. Adressen står i utskriften (`https://localhost:xxxx`). Hvis nettleseren ikke stoler på sertifikatet, kjør `dotnet dev-certs https --trust` én gang.
@@ -34,7 +34,7 @@ dotnet test
 ## Tester
 
 Testene ligger i `LearnToDev.Tests/` og bruker xUnit og Moq. Mappene speiler
-MVC-prosjektet (`Controllers/`, `Services/`). Se `Examples/ExampleServiceTests.cs`
+API-prosjektet (`Controllers/`, `Services/`). Se `Examples/ExampleServiceTests.cs`
 for et eksempel på en test som mocker et repository.
 
 Kjør alle testene fra roten av repoet:

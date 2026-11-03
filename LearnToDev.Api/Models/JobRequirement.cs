@@ -1,4 +1,4 @@
-namespace LearnToDev.Mvc.Models;
+namespace LearnToDev.Api.Models;
 
 public class JobRequirement
 {

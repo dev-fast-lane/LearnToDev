@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LearnToDev.Mvc.Data;
+using LearnToDev.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
