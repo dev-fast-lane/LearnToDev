@@ -23,7 +23,7 @@ dotnet build
 dotnet watch --project LearnToDev.Api
 ```
 
-`dotnet watch` starter appen og bygger på nytt når du lagrer. Adressen står i utskriften (`https://localhost:xxxx`). Hvis nettleseren ikke stoler på sertifikatet, kjør `dotnet dev-certs https --trust` én gang.
+`dotnet watch` starter API-et og bygger på nytt når du lagrer. Nettleseren åpner Swagger (`/swagger`), der du kan prøve endepunktene. Adressen står i utskriften (`https://localhost:xxxx`). Hvis nettleseren ikke stoler på sertifikatet, kjør `dotnet dev-certs https --trust` én gang.
 
 Kjør testene:
 
@@ -109,7 +109,7 @@ En sak er ferdig når:
 
 ### Logging og feilhåndtering
 
-Uventede feil fanges globalt. Brukeren ser en vennlig feilside (`Views/Shared/Error.cshtml`), og feilen logges av `HomeController.Error`. Sider som ikke finnes, gir `Views/Shared/NotFound.cshtml`. Du trenger ikke `try`/`catch` for å unngå krasj, bare der du vil gi brukeren en egen melding.
+Uventede feil fanges globalt av `UseExceptionHandler()` i `Program.cs`. Feilen logges, og klienten får et JSON-svar i ProblemDetails-format med statuskode 500. Feilkoder uten innhold, som `404`, får også ProblemDetails. Mangler innlogging, svarer API-et `401`, og mangler rollen, svarer det `403`, i stedet for å sende videre til en innloggingsside. Du trenger ikke `try`/`catch` for å unngå krasj, bare der du vil gi klienten en egen melding.
 
 Hent `ILogger<T>` i konstruktøren, på samme måte som andre tjenester:
 
