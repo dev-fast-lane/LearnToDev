@@ -9,7 +9,7 @@ Kopier en av malene når du skal skrive spørsmål for en skole:
 - [`sporsmal-mal.json`](sporsmal-mal.json): vanlig skole med kompendium og spørsmål
 - [`sporsmal-mal-fullstack.json`](sporsmal-mal-fullstack.json): Fullstack, som bare har eksamen
 
-Malene har plassholdere og skal ikke seedes. De ekte filene legges i `LearnToDev.Mvc/Data/Seed/` (se #12).
+Malene har plassholdere og skal ikke seedes. De ekte filene legges i `LearnToDev.Api/Data/Seed/` (se #12).
 
 ## Én fil per skole
 

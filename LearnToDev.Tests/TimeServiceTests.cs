@@ -1,5 +1,5 @@
-using LearnToDev.Mvc.Models;
-using LearnToDev.Mvc.Services;
+using LearnToDev.Api.Models;
+using LearnToDev.Api.Services;
 
 namespace LearnToDev.Tests;
 

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LearnToDev.Mvc\LearnToDev.Mvc.csproj" />
+    <ProjectReference Include="..\LearnToDev.Api\LearnToDev.Api.csproj" />
   </ItemGroup>
 
 </Project>

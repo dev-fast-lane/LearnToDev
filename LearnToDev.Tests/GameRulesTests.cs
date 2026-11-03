@@ -1,4 +1,4 @@
-using LearnToDev.Mvc.Models;
+using LearnToDev.Api.Models;
 namespace LearnToDev.Tests;
 
 public class GameRulesTests
