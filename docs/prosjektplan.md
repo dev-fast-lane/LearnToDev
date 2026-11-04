@@ -15,13 +15,15 @@ Planen vår ligger på GitHub-prosjektet **Kanban**, og ikke i en egen fil. Der 
 
 Hver sak har feltet **Uke** og en milestone som viser når den skal være ferdig.
 
+LearnToDev er Subapp 2: et ASP.NET Core Web API (`LearnToDev.Api`) med en React-app (Vite) som klient. Hver funksjonssak dekker både endepunktet og React-skjermen.
+
 | Uke | Datoer | Milestone | Hovedinnhold |
 | --- | --- | --- | --- |
-| U43 | 19.–25. okt | Grunnmur | Spilltall, struktur, modell, migrering, seed, Identity |
-| U44 | 26. okt–1. nov | MVC | Repositories, admin-CRUD, søk, skole og øving |
-| U45 | 2.–8. nov | MVC + API starter | Eksamen, jobb, ny dag, bolig, tester |
-| U46 | 9.–15. nov | API + React | Controller-tester, API, React-oppsett |
-| U47 | 16.–22. nov | React + rydding | Admin- og spillskjermer, null advarsler |
+| U43 | 19.–25. okt | Grunnmur | Spilltall, struktur, modell, migrering, Identity, feilhåndtering, seed-format |
+| U44 | 26. okt–1. nov | Backend-start | Testprosjekt, spillregler og tidstrekk |
+| U45 | 2.–8. nov | API- og React-grunnmur | API-prosjektet, innlogging, repositories, seed, React-oppsett |
+| U46 | 9.–15. nov | Admin og skole | Admin-CRUD, søk, skoleoversikt, øving og eksamen |
+| U47 | 16.–22. nov | Jobb, dag og rydding | Jobb, ny dag, bolig, tester, null advarsler |
 | U48 | 23.–30. nov | Levering | Dokumentasjon, test på ren maskin, innlevering |
 
 ## Slik holder vi planen oppdatert

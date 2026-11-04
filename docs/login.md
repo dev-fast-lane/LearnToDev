@@ -1,6 +1,6 @@
 # Innlogging
 
-Innloggingen bruker ASP.NET Core Identity med en egen `AccountController` (MVC). Vi bruker ikke de ferdige Identity UI-sidene (Razor Pages).
+Innloggingen bruker ASP.NET Core Identity med en egen `AccountController` (API). Vi bruker ikke de ferdige Identity UI-sidene (Razor Pages).
 
 ## Filer
 
