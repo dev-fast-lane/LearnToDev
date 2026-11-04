@@ -45,6 +45,10 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await db.Database.MigrateAsync();
+    // Fill the database with game content the first time the app starts
+    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("DbInitializer");
+    var seedFolder = Path.Combine(AppContext.BaseDirectory, "Data", "Seed");
+    await DbInitializer.SeedAsync(db, logger, seedFolder);
 }
 
 // Configure the HTTP request pipeline.
