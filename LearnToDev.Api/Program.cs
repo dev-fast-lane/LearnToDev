@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LearnToDev.Api.Data;
+using LearnToDev.Api.Repositories;
+using LearnToDev.Api.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 //Registering ApplicationDbContext so that it can be injected using SQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
+
+//Repositories: Scoped gives one per request, same lifetime as ApplicationDbContext
+builder.Services.AddScoped<IHousingRepository, HousingRepository>();
+builder.Services.AddScoped<ISchoolLevelRepository, SchoolLevelRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {

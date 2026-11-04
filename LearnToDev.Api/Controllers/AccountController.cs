@@ -19,7 +19,7 @@ public class AccountController : Controller
 
     // håndterer login av allerede registrerte brukere, forhindrer brute forcing ved hjelp av PasswordSignInAsync
     // SignInAsync lager en innloggingscookie
-    
+
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
     {
@@ -37,8 +37,8 @@ public class AccountController : Controller
         {
             return View(model);
         }
-        
-        var user = await _userManager.FindByEmailAsync(model.EmailOrUserName) 
+
+        var user = await _userManager.FindByEmailAsync(model.EmailOrUserName)
                    ?? await _userManager.FindByNameAsync(model.EmailOrUserName);
         if (user != null)
         {
@@ -66,15 +66,15 @@ public class AccountController : Controller
         ModelState.AddModelError(string.Empty, "Ugyldig innlogging.");
         return View(model);
     }
-    
+
     // Håndterer registrering av brukeren, og gjør noen sjekker.
-    
+
     [HttpGet]
     public IActionResult Register()
     {
         return View();
     }
-    
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model)
@@ -106,9 +106,9 @@ public class AccountController : Controller
 
         return View(model);
     }
-    
+
     // logger ut brukeren (SignOutAsync sletter innloggingscookien) 
-    
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
@@ -119,7 +119,7 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
     // vises når en innlogget bruker mangler rolle til en side (Identity sender hit automatisk)
-    
+
     [HttpGet]
     public IActionResult AccessDenied()
     {
