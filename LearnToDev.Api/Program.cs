@@ -22,6 +22,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IHousingRepository, HousingRepository>();
 builder.Services.AddScoped<ISchoolLevelRepository, SchoolLevelRepository>();
 builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
+builder.Services.AddScoped<IStudyQuestionRepository, StudyQuestionRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<IJobTaskRepository, JobTaskRepository>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {
