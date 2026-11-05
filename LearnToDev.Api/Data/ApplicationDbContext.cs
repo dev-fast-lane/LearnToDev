@@ -59,7 +59,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         .WithMany(x => x.Players)
         .HasForeignKey(x => x.CurrentJobId)
         .OnDelete(DeleteBehavior.SetNull);
-        
+
         // Player to Housing
         modelBuilder.Entity<Player>()
         .HasOne(x => x.Housing)

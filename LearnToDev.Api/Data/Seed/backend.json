@@ -1,0 +1,84 @@
+{
+    "name": "Backend",
+    "isExamOnly": false,
+    "schoolLevels": [
+        {
+            "level": 1,
+            "compendium": "C# er et typesterkt språk: hver variabel har en type, for eksempel int for heltall, double for desimaltall, string for tekst og bool for sant/usant. Uttrykk regnes ut etter vanlige regneregler, så multiplikasjon kommer før addisjon.",
+            "studyQuestions": [
+                {
+                    "text": "Hvilken datatype i C# brukes for heltall?",
+                    "explanation": "int brukes for heltall, som 5 eller -12. double brukes for desimaltall, string for tekst og bool for true/false.",
+                    "answerOptions": [
+                        { "text": "int", "isCorrect": true },
+                        { "text": "string", "isCorrect": false },
+                        { "text": "bool", "isCorrect": false },
+                        { "text": "double", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hva skriver Console.WriteLine(5 + 3 * 2) ut?",
+                    "explanation": "Multiplikasjon regnes før addisjon: 3 * 2 = 6, og 5 + 6 = 11.",
+                    "answerOptions": [
+                        { "text": "11", "isCorrect": true },
+                        { "text": "16", "isCorrect": false },
+                        { "text": "13", "isCorrect": false },
+                        { "text": "10", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 2,
+            "compendium": "I MVC deles appen i tre: Model (dataene), View (det brukeren ser) og Controller (tar imot forespørsler og bestemmer hva som skal skje). Et interface beskriver hvilke metoder en klasse må ha, uten å si hvordan de virker.",
+            "studyQuestions": [
+                {
+                    "text": "Hva er hovedoppgaven til en controller i MVC?",
+                    "explanation": "Controlleren tar imot forespørselen, henter det som trengs, og velger hvilket view eller svar som sendes tilbake. Modellen holder dataene, og viewet bestemmer utseendet.",
+                    "answerOptions": [
+                        { "text": "Ta imot forespørsler og bestemme hva som skal returneres", "isCorrect": true },
+                        { "text": "Bestemme hvordan siden ser ut", "isCorrect": false },
+                        { "text": "Beskrive hvordan dataene er bygget opp", "isCorrect": false },
+                        { "text": "Lagre CSS-filene til appen", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hva betyr det at en klasse implementerer et interface?",
+                    "explanation": "Et interface er en avtale. Klassen som implementerer det, lover å ha alle metodene interfacet beskriver, og bestemmer selv hvordan de virker.",
+                    "answerOptions": [
+                        { "text": "Klassen lover å ha alle metodene interfacet beskriver", "isCorrect": true },
+                        { "text": "Klassen arver all koden fra interfacet", "isCorrect": false },
+                        { "text": "Klassen kan ikke ha egne metoder", "isCorrect": false },
+                        { "text": "Klassen blir automatisk lagret i databasen", "isCorrect": false }
+                    ]
+                }
+            ]
+        },
+        {
+            "level": 3,
+            "compendium": "async og await lar appen vente på trege operasjoner, som databasekall, uten å stå stille imens. Dependency injection betyr at en klasse får avhengighetene sine utenfra, ofte gjennom konstruktøren, i stedet for å lage dem selv. Det gjør koden enklere å teste.",
+            "studyQuestions": [
+                {
+                    "text": "Hva gjør await foran et metodekall?",
+                    "explanation": "await venter på at en asynkron operasjon blir ferdig og henter ut resultatet, uten å blokkere tråden imens. Metoden rundt må være merket async.",
+                    "answerOptions": [
+                        { "text": "Venter på resultatet av en asynkron operasjon uten å blokkere", "isCorrect": true },
+                        { "text": "Kjører metoden flere ganger samtidig", "isCorrect": false },
+                        { "text": "Stopper hele programmet til metoden er ferdig", "isCorrect": false },
+                        { "text": "Gjør metoden raskere", "isCorrect": false }
+                    ]
+                },
+                {
+                    "text": "Hva er dependency injection?",
+                    "explanation": "Med dependency injection får klassen det den trenger utenfra, for eksempel et repository gjennom konstruktøren. Da kan en test gi den en mock i stedet for det ekte.",
+                    "answerOptions": [
+                        { "text": "At klassen får avhengighetene sine utenfra, for eksempel gjennom konstruktøren", "isCorrect": true },
+                        { "text": "At klassen lager alle objektene den trenger selv", "isCorrect": false },
+                        { "text": "At kode kopieres inn i en annen klasse", "isCorrect": false },
+                        { "text": "At databasen fylles med testdata", "isCorrect": false }
+                    ]
+                }
+            ]
+        }
+    ]
+}
