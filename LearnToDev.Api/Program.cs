@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LearnToDev.Api.Data;
+using LearnToDev.Api.Repositories;
+using LearnToDev.Api.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 //Registering ApplicationDbContext so that it can be injected using SQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
+
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {
