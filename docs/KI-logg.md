@@ -57,6 +57,12 @@ Verktøy brukt: Claude
 Hva ble spurt: Lære hvordan enhetstester og mocking fungerer med xUnit og Moq (#47).
 Hva ble brukt: Forklaringer av interface, konstruktør, lambda, Setup, Verify og .Object, og eksempeltesten i Examples/ som jeg bygde steg for steg.
 Verifisering: Kjørte dotnet test (2 av 2 bestått) og dotnet build (0 advarsler). Så at testen feilet når forventet og faktisk verdi var ulike.
+
+Dato: 04-11-2026
+Verktøy brukt: Claude
+Hva ble spurt: Hjelp til DbInitializer (#12). Jeg gikk gjennom koden steg for steg og fikk forklart hver del: JSON-lesing med System.Text.Json, async/await, streams, output-mappen og CopyToOutputDirectory, og hvordan EF Core kobler jobber til skolenivåer og andre jobber.
+Hva ble brukt: Lesingen av JSON-filene og feilhåndteringen skrev jeg selv etter forklaringen. Claude genererte innholdet i seed-filene (spørsmål og svar) og de repeterende delene av jobbseedingen (jobber, oppgaver og krav). Jeg fikk forklart hver blokk før jeg tok den inn. Valget om å ha jobbene i koden og skolene i JSON tok jeg selv etter å ha vurdert fordeler og ulemper.
+Verifisering: Bygget med 0 feil og 0 advarsler. Slettet databasen, startet appen og sjekket at alle tabellene fikk riktig antall rader, og at krav og jobbstige stemmer med spilltall og beslutningsloggen. Startet på nytt og sjekket at seedingen hoppes over. Gikk gjennom spørsmålene og oppgavene for faglige feil.
 ```
 ### Ingvald
 ```
