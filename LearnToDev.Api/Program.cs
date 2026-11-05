@@ -18,6 +18,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
+//Repositories: Scoped gives one per request, same lifetime as ApplicationDbContext
+builder.Services.AddScoped<IHousingRepository, HousingRepository>();
+builder.Services.AddScoped<ISchoolLevelRepository, SchoolLevelRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
+builder.Services.AddScoped<IStudyQuestionRepository, StudyQuestionRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<IJobTaskRepository, JobTaskRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
