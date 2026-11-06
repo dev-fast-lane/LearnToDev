@@ -14,7 +14,7 @@ Tall og regler er bestemt i [beslutningsloggen](beslutningslogg.md) og [spilltal
 
 ### Quiz
 
-- 4 dataset
+- ett dataset per skole, unntatt Fullstack, som ikke har egne spørsmål og trekker eksamensspørsmål fra de andre skolene
 - .json = questions
 - multiple choice på learning
 - insert field på jobber
@@ -26,7 +26,7 @@ når man jobber er det insert field
 Rekkefølge på jobber er IT Help -> stud.ass -> Office -> Startup -> Tech Corp
 
 - IT Help = alltid åpen
-- stud.ass = bestått nivå 1 på én skole (det holder med én)
+- stud.ass = bestått nivå 1 på én skole (det holder med én) & jobbet som IT Help
 - Office = bestått Fullstack 1 & jobbet som stud.ass
 - Startup = bestått Fullstack 2 & jobbet på Office
 - Tech Corp = bestått Fullstack 3 & jobbet på Startup
