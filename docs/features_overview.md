@@ -1,18 +1,20 @@
 # Features L T D
 
+Tall og regler er bestemt i [beslutningsloggen](beslutningslogg.md) og [spilltall](spilltall.md). Hvis noe her er uklart, er det de som gjelder.
+
 ## Main features
 
 ### Spiller
 
 - male / female
-- bolignivå / tid per uke / leie
+- bolignivå / tid per dag / leie
 - jobb / lønn
 - studienivå / jobber tilgjengelige
 - penger /damn son
 
 ### Quiz
 
-- 4 dataset
+- ett dataset per skole, unntatt Fullstack, som ikke har egne spørsmål og trekker eksamensspørsmål fra de andre skolene
 - .json = questions
 - multiple choice på learning
 - insert field på jobber
@@ -24,22 +26,23 @@ når man jobber er det insert field
 Rekkefølge på jobber er IT Help -> stud.ass -> Office -> Startup -> Tech Corp
 
 - IT Help = alltid åpen
-- stud.ass = fullført nivå 1 skole på tilsvarende
-- Office = fullført nivå 1 skole + fullstack & jobbet alle stud.ass
-- Start Up = fullført nivå 2 skole + fullstack & jobbet på Office
-- Tech Corp = fullført nivå 3 skole + fullstack & jobbet på Start-up
+- stud.ass = bestått nivå 1 på én skole (det holder med én) & jobbet som IT Help
+- Office = bestått Fullstack 1 & jobbet som stud.ass
+- Startup = bestått Fullstack 2 & jobbet på Office
+- Tech Corp = bestått Fullstack 3 & jobbet på Startup
 
 ### Skoler
 
-- Kompendie tilgjengelig på hver enkelt skole
+- Kompendie tilgjengelig på hver enkelt skole, unntatt Fullstack
 - egenstudie = multiple choice quiz med forklaring etter svar
-- eksamen 5(?) spørsmål uten forklaring, pass or fail
+- eksamen 5 spørsmål uten forklaring, 4 riktige = bestått
+- Fullstack = bare eksamen. Krever bestått samme nivå på alle de andre skolene, og spørsmålene trekkes fra dem
 
 ### Boliger
 
 - 5 ulike bolignivåer fra lav til høy - telt, dorm, hybel, leilighet, penthouse
-- For hver oppgradering i bolig øker tiden per uke med 2? timer, fra 8-16 timer.
-- Boligene har ulik leie, der telt er helt gratis. Dersom man ikke klarer å betale måned/ukesleie, nedgradert til tidligere nivå?
+- For hver oppgradering i bolig øker tiden per dag med 2 timer, fra 12-20 timer.
+- Boligene har ulik husleie per natt, der telt er helt gratis. Husleien betales på starten av hver nye dag, etter at lønnen er utbetalt. Har man ikke råd, blir man kastet ut til telt.
 
 ### Achievements
 
@@ -54,7 +57,7 @@ rekkefølge på bolig: tent -> dorm -> hybel -> Apt. -> Penthouse
 man legger på 2 t per upgrade
 endre klokke til at rødt er tid du IKKE har, at viseren beveger seg mot det røde.
 
-- Tent = 8 timer til rådighet, dorm = 10 t osv.
+- Tent = 12 timer til rådighet per dag, dorm = 14 t osv.
 
 ### Money
 
