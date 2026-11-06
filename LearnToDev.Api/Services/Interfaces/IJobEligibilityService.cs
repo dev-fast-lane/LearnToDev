@@ -1,4 +1,4 @@
-namespace LearnToDev.Api.Services;
+namespace LearnToDev.Api.Services.Interfaces;
 
 // Decides which jobs a player can take, and why the others are locked
 public interface IJobEligibilityService

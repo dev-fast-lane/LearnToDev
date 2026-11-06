@@ -1,5 +1,6 @@
 using LearnToDev.Api.Models;
 using LearnToDev.Api.Repositories.Interfaces;
+using LearnToDev.Api.Services.Interfaces;
 
 namespace LearnToDev.Api.Services;
 
