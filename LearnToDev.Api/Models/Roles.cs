@@ -4,5 +4,5 @@ namespace LearnToDev.Api.Models;
 public static class Roles
 {
     public const string Admin = "Admin";
-    public const string Player = "Spiller";
+    public const string Player = "Player";
 }
