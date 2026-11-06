@@ -23,10 +23,12 @@ Denne loggen forklarer hvorfor spillreglene i [spilltall](spilltall.md) er som d
 | Jobb      | Krav                                         | Lønn per dag | Skift |
 | --------- | -------------------------------------------- | ------------ | ----- |
 | IT Help   | Alltid åpen                                  | 20           | 4 t   |
-| Stud.ass  | Bestått nivå 1 på en skole, og jobbet som IT Help | 75           | 4 t   |
+| Stud.ass Frontend | Frontend 1, og jobbet i IT Help                     | 75  | 4 t |
+| Stud.ass Backend  | Backend 1, og jobbet i IT Help                      | 75  | 4 t |
+| Stud.ass Database | Database 1, og jobbet i IT Help                     | 75  | 4 t |
 | Office    | Fullstack 1, og jobbet som Stud.ass          | 150          | 6 t   |
 | Startup   | Fullstack 2, og jobbet på Office             | 260          | 6 t   |
-| Tech Corp | Fullstack 3, og jobbet på Startup            | 450          | 8 t   |
+| Tech Corp | Fullstack 3, og jobbet på Startup            | 450          | 8 t      |
 
 Kravene sikrer at spilleren går gjennom stigen i riktig rekkefølge: skolenivået viser
 at hen kan faget, Fullstack viser at hen behersker alle fagene samlet, og kravet om
