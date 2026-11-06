@@ -12,6 +12,8 @@ public static class GameRules
     public const int WarningsBeforeFired = 2;
     public const int WarningResetDays = 5;
 
+    public const int MaxSchoolLevel = 3;
+
     public const int ExamQuestionCount = 5;
     public const int ExamPassMark = 4;
 
