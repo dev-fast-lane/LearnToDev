@@ -17,7 +17,7 @@ public class ExamService : IExamService
 
     public async Task<ExamAccessResult> CanTakeExamAsync(int playerId, int schoolId, int level)
     {
-        var player = await _playerRepository.GetByIdWithDetailsAsync(playerId);
+        var player = await _playerRepository.GetByIdWithSchoolProgressAsync(playerId);
         if (player == null)
             return ExamAccessResult.Reject("Fant ikke spilleren.");
 
@@ -28,7 +28,7 @@ public class ExamService : IExamService
         if (level < 1 || level > GameRules.MaxSchoolLevel)
             return ExamAccessResult.Reject($"Nivået må være mellom 1 og {GameRules.MaxSchoolLevel}.");
 
-        var passedInSchool = GetLevelPassed(player, school.Id);
+        var passedInSchool = player.GetLevelPassed(school.Id);
         if (passedInSchool >= level)
             return ExamAccessResult.Reject($"Du har allerede bestått {school.Name} nivå {level}.");
 
@@ -43,16 +43,11 @@ public class ExamService : IExamService
                 .Where(s => !s.IsExamOnly)
                 .OrderBy(s => s.Name);
 
-            var missing = regularSchools.FirstOrDefault(s => GetLevelPassed(player, s.Id) < level);
+            var missing = regularSchools.FirstOrDefault(s => player.GetLevelPassed(s.Id) < level);
             if (missing != null)
                 return ExamAccessResult.Reject($"Du må bestå {missing.Name} nivå {level} først.");
         }
 
         return ExamAccessResult.Accept();
-    }
-
-    private static int GetLevelPassed(Player player, int schoolId)
-    {
-        return player.SchoolProgresses.FirstOrDefault(p => p.SchoolId == schoolId)?.LevelPassed ?? 0;
     }
 }

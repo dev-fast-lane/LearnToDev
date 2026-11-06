@@ -29,8 +29,9 @@ builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IJobTaskRepository, JobTaskRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
-//Services: Scoped because they use the repositories above
+//Services: game rules. Scoped because they use the repositories above
 builder.Services.AddScoped<IExamService, ExamService>();
+builder.Services.AddScoped<IJobEligibilityService, JobEligibilityService>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {
