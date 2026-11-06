@@ -18,14 +18,61 @@ public class JobEligibilityService : IJobEligibilityService
         _logger = logger;
     }
 
-    public Task<JobEligibility?> CheckJobAsync(int playerId, int jobId)
+    public async Task<JobEligibility?> CheckJobAsync(int playerId, int jobId)
     {
-        throw new NotImplementedException(); // Implemented in step 6
+        var player = await _playerRepository.GetByIdWithDetailsAsync(playerId);
+        if (player == null)
+        {
+            _logger.LogWarning("Eligibility check failed: player {PlayerId} not found", playerId);
+            return null;
+        }
+
+        var job = await _jobRepository.GetByIdWithRequirementsAsync(jobId);
+        if (job == null)
+        {
+            _logger.LogWarning("Eligibility check failed: job {JobId} not found", jobId);
+            return null;
+        }
+
+        var completedJobIds = await _playerRepository.GetCompletedJobIdsAsync(playerId);
+        var result = Evaluate(job, player, completedJobIds);
+
+        _logger.LogInformation("Player {PlayerId} checked job {JobId}: open = {IsOpen}", playerId, jobId, result.IsOpen);
+        return result;
     }
 
-    public Task<List<JobEligibility>> CheckAllJobsAsync(int playerId)
+    public async Task<List<JobEligibility>> CheckAllJobsAsync(int playerId)
     {
-        throw new NotImplementedException(); // Implemented in step 6
+        var player = await _playerRepository.GetByIdWithDetailsAsync(playerId);
+        if (player == null)
+        {
+            _logger.LogWarning("Eligibility check failed: player {PlayerId} not found", playerId);
+            return new List<JobEligibility>();
+        }
+
+        var jobs = await _jobRepository.GetAllWithRequirementsAsync();
+        var completedJobIds = await _playerRepository.GetCompletedJobIdsAsync(playerId);
+
+        var results = jobs.Select(job => Evaluate(job, player, completedJobIds)).ToList();
+
+        _logger.LogInformation("Player {PlayerId} has {OpenCount} of {JobCount} jobs open",
+            playerId, results.Count(r => r.IsOpen), results.Count);
+        return results;
+    }
+
+    // Runs every rule for one job and collects the lock reasons. The job is open when there are none
+    private static JobEligibility Evaluate(Job job, Player player, List<int> completedJobIds)
+    {
+        var lockReasons = new List<string?>
+        {
+            CheckSchoolRequirements(job, player),
+            CheckPrerequisiteJobs(job, completedJobIds),
+            // #40: add the "fired from this job" rule here
+        }
+        .OfType<string>() // Removes the nulls, so only real lock reasons are left
+        .ToList();
+
+        return new JobEligibility(job.Id, job.Name, lockReasons.Count == 0, lockReasons);
     }
 
     // Returns a lock reason if the player has not passed any of the job's school requirements, otherwise null
