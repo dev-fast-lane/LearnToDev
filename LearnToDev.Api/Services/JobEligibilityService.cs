@@ -21,7 +21,7 @@ public class JobEligibilityService : IJobEligibilityService
 
     public async Task<JobEligibility?> CheckJobAsync(int playerId, int jobId)
     {
-        var player = await _playerRepository.GetByIdWithDetailsAsync(playerId);
+        var player = await _playerRepository.GetByIdWithSchoolProgressAsync(playerId);
         if (player == null)
         {
             _logger.LogWarning("Eligibility check failed: player {PlayerId} not found", playerId);
@@ -38,17 +38,17 @@ public class JobEligibilityService : IJobEligibilityService
         var completedJobIds = await _playerRepository.GetCompletedJobIdsAsync(playerId);
         var result = Evaluate(job, player, completedJobIds);
 
-        _logger.LogInformation("Player {PlayerId} checked job {JobId}: open = {IsOpen}", playerId, jobId, result.IsOpen);
+        _logger.LogDebug("Player {PlayerId} checked job {JobId}: open = {IsOpen}", playerId, jobId, result.IsOpen);
         return result;
     }
 
-    public async Task<List<JobEligibility>> CheckAllJobsAsync(int playerId)
+    public async Task<List<JobEligibility>?> CheckAllJobsAsync(int playerId)
     {
-        var player = await _playerRepository.GetByIdWithDetailsAsync(playerId);
+        var player = await _playerRepository.GetByIdWithSchoolProgressAsync(playerId);
         if (player == null)
         {
             _logger.LogWarning("Eligibility check failed: player {PlayerId} not found", playerId);
-            return new List<JobEligibility>();
+            return null;
         }
 
         var jobs = await _jobRepository.GetAllWithRequirementsAsync();
@@ -56,13 +56,13 @@ public class JobEligibilityService : IJobEligibilityService
 
         var results = jobs.Select(job => Evaluate(job, player, completedJobIds)).ToList();
 
-        _logger.LogInformation("Player {PlayerId} has {OpenCount} of {JobCount} jobs open",
+        _logger.LogDebug("Player {PlayerId} has {OpenCount} of {JobCount} jobs open",
             playerId, results.Count(r => r.IsOpen), results.Count);
         return results;
     }
 
     // Runs every rule for one job and collects the lock reasons. The job is open when there are none
-    private static JobEligibility Evaluate(Job job, Player player, List<int> completedJobIds)
+    private static JobEligibility Evaluate(Job job, Player player, HashSet<int> completedJobIds)
     {
         var lockReasons = new List<string?>
         {
@@ -76,31 +76,28 @@ public class JobEligibilityService : IJobEligibilityService
         return new JobEligibility(job.Id, job.Name, lockReasons.Count == 0, lockReasons);
     }
 
-    // Returns a lock reason if the player has not passed any of the job's school requirements, otherwise null
+    // Returns a lock reason if the player has not passed every school requirement of the job, otherwise null
     private static string? CheckSchoolRequirements(Job job, Player player)
     {
-        // Jobs without school requirements (IT Help) pass this rule
-        if (job.JobRequirements.Count == 0)
-            return null;
-
-        // "At least one": passing one of the required levels is enough
-        bool hasPassedOne = job.JobRequirements.Any(requirement =>
-            player.SchoolProgresses.Any(progress =>
-                progress.SchoolId == requirement.SchoolLevel.SchoolId &&
-                progress.LevelPassed >= requirement.SchoolLevel.Level));
-
-        if (hasPassedOne)
-            return null;
-
-        // e.g. "Mangler Frontend nivå 1", or "Mangler Frontend nivå 1 eller Backend nivå 1"
+        // "All", like the prerequisite jobs: collect the required levels the player has not passed.
+        // Jobs without school requirements (IT Help) get an empty list and pass this rule
+        // Only the highest required level per school counts, since passing level 2 means level 1 is passed too
         var missing = job.JobRequirements
-            .Select(requirement => $"{requirement.SchoolLevel.School.Name} nivå {requirement.SchoolLevel.Level}");
+            .GroupBy(requirement => requirement.SchoolLevel.SchoolId)
+            .Select(group => group.MaxBy(requirement => requirement.SchoolLevel.Level)!)
+            .Where(requirement => player.GetLevelPassed(requirement.SchoolLevel.SchoolId) < requirement.SchoolLevel.Level)
+            .Select(requirement => $"{requirement.SchoolLevel.School.Name} nivå {requirement.SchoolLevel.Level}")
+            .ToList();
 
-        return $"Mangler {string.Join(" eller ", missing)}";
+        if (missing.Count == 0)
+            return null;
+
+        // e.g. "Mangler Frontend nivå 1", or "Mangler Frontend nivå 1 og Backend nivå 1"
+        return $"Mangler {JoinWithAnd(missing)}";
     }
 
     // Returns a lock reason if the player has not completed a work day in every prerequisite job, otherwise null
-    private static string? CheckPrerequisiteJobs(Job job, List<int> completedJobIds)
+    private static string? CheckPrerequisiteJobs(Job job, HashSet<int> completedJobIds)
     {
         // "All": every prerequisite job must be completed, so collect the ones that are missing
         var missingJobs = job.Prerequisites
@@ -111,7 +108,16 @@ public class JobEligibilityService : IJobEligibilityService
         if (missingJobs.Count == 0)
             return null;
 
-        // e.g. "Må ha jobbet som Stud.ass Backend", or "Må ha jobbet som Stud.ass Frontend, Stud.ass Backend"
-        return $"Må ha jobbet som {string.Join(", ", missingJobs)}";
+        // e.g. "Må ha jobbet som IT Help", or "Må ha jobbet som Stud.ass Frontend, Stud.ass Backend og Stud.ass Database"
+        return $"Må ha jobbet som {JoinWithAnd(missingJobs)}";
+    }
+
+    // Joins a list the Norwegian way: "A", "A og B", "A, B og C"
+    private static string JoinWithAnd(List<string> items)
+    {
+        if (items.Count == 1)
+            return items[0];
+
+        return $"{string.Join(", ", items.Take(items.Count - 1))} og {items[^1]}";
     }
 }

@@ -12,6 +12,7 @@ public class JobEligibilityServiceTests
     private const int PlayerId = 1;
     private const int ItHelpId = 1;
     private const int StudAssFrontendId = 2;
+    private const int CombinedJobId = 3;
 
     private readonly Mock<IJobRepository> _jobRepository = new();
     private readonly Mock<IPlayerRepository> _playerRepository = new();
@@ -28,31 +29,47 @@ public class JobEligibilityServiceTests
         studAssFrontend.JobRequirements.Add(new JobRequirement { JobId = StudAssFrontendId, SchoolLevelId = 1, SchoolLevel = frontendLevel1 });
         studAssFrontend.Prerequisites.Add(new JobPrerequisite { JobId = StudAssFrontendId, RequiredJobId = ItHelpId, RequiredJob = itHelp });
 
+        // Test-only job with two of each, to check that every requirement and every prerequisite is needed
+        var backend = new School { Id = 2, Name = "Backend" };
+        var backendLevel1 = new SchoolLevel { Id = 2, SchoolId = 2, School = backend, Level = 1 };
+        var combinedJob = new Job { Id = CombinedJobId, Name = "Combined", Rank = 3 };
+        combinedJob.JobRequirements.Add(new JobRequirement { JobId = CombinedJobId, SchoolLevelId = 1, SchoolLevel = frontendLevel1 });
+        combinedJob.JobRequirements.Add(new JobRequirement { JobId = CombinedJobId, SchoolLevelId = 2, SchoolLevel = backendLevel1 });
+        combinedJob.Prerequisites.Add(new JobPrerequisite { JobId = CombinedJobId, RequiredJobId = ItHelpId, RequiredJob = itHelp });
+        combinedJob.Prerequisites.Add(new JobPrerequisite { JobId = CombinedJobId, RequiredJobId = StudAssFrontendId, RequiredJob = studAssFrontend });
+
         _jobRepository.Setup(r => r.GetByIdWithRequirementsAsync(ItHelpId)).ReturnsAsync(itHelp);
         _jobRepository.Setup(r => r.GetByIdWithRequirementsAsync(StudAssFrontendId)).ReturnsAsync(studAssFrontend);
+        _jobRepository.Setup(r => r.GetByIdWithRequirementsAsync(CombinedJobId)).ReturnsAsync(combinedJob);
         _jobRepository.Setup(r => r.GetAllWithRequirementsAsync()).ReturnsAsync(new List<Job> { itHelp, studAssFrontend });
 
         // NullLogger: a logger that throws away everything, because the tests do not check the log
         _service = new JobEligibilityService(_jobRepository.Object, _playerRepository.Object, NullLogger<JobEligibilityService>.Instance);
     }
 
-    // Fake player with the given Frontend level (0 = not started) and maybe a completed day in IT Help
-    private void SetUpPlayer(int frontendLevelPassed, bool hasWorkedItHelp)
+    // Fake player with the given school levels (0 = not started) and maybe completed days in IT Help and Stud.ass Frontend
+    private void SetUpPlayer(int frontendLevelPassed, bool hasWorkedItHelp, int backendLevelPassed = 0, bool hasWorkedStudAssFrontend = false)
     {
         var player = new Player { Id = PlayerId, Name = "Kari" };
         if (frontendLevelPassed > 0)
             player.SchoolProgresses.Add(new PlayerSchoolProgress { PlayerId = PlayerId, SchoolId = 1, LevelPassed = frontendLevelPassed });
+        if (backendLevelPassed > 0)
+            player.SchoolProgresses.Add(new PlayerSchoolProgress { PlayerId = PlayerId, SchoolId = 2, LevelPassed = backendLevelPassed });
 
-        var completedJobIds = hasWorkedItHelp ? new List<int> { ItHelpId } : new List<int>();
+        var completedJobIds = new HashSet<int>();
+        if (hasWorkedItHelp)
+            completedJobIds.Add(ItHelpId);
+        if (hasWorkedStudAssFrontend)
+            completedJobIds.Add(StudAssFrontendId);
 
-        _playerRepository.Setup(r => r.GetByIdWithDetailsAsync(PlayerId)).ReturnsAsync(player);
+        _playerRepository.Setup(r => r.GetByIdWithSchoolProgressAsync(PlayerId)).ReturnsAsync(player);
         _playerRepository.Setup(r => r.GetCompletedJobIdsAsync(PlayerId)).ReturnsAsync(completedJobIds);
     }
 
     [Fact]
     public async Task CheckJobAsync_UnknownPlayer_ReturnsNull()
     {
-        _playerRepository.Setup(r => r.GetByIdWithDetailsAsync(99)).ReturnsAsync((Player?)null);
+        _playerRepository.Setup(r => r.GetByIdWithSchoolProgressAsync(99)).ReturnsAsync((Player?)null);
 
         var result = await _service.CheckJobAsync(99, ItHelpId);
 
@@ -78,17 +95,52 @@ public class JobEligibilityServiceTests
 
         var result = await _service.CheckAllJobsAsync(PlayerId);
 
+        Assert.NotNull(result);
         Assert.Equal(new[] { "IT Help" }, result.Where(j => j.IsOpen).Select(j => j.JobName));
     }
 
     [Fact]
-    public async Task CheckAllJobsAsync_UnknownPlayer_ReturnsEmptyList()
+    public async Task CheckAllJobsAsync_UnknownPlayer_ReturnsNull()
     {
-        _playerRepository.Setup(r => r.GetByIdWithDetailsAsync(99)).ReturnsAsync((Player?)null);
+        _playerRepository.Setup(r => r.GetByIdWithSchoolProgressAsync(99)).ReturnsAsync((Player?)null);
 
         var result = await _service.CheckAllJobsAsync(99);
 
-        Assert.Empty(result);
+        Assert.Null(result); // null, not an empty list, so the controller can answer 404
+    }
+
+    [Fact]
+    public async Task CheckJobAsync_TwoRequirementsOnlyOnePassed_LockedByTheMissingOne()
+    {
+        SetUpPlayer(frontendLevelPassed: 1, hasWorkedItHelp: true, backendLevelPassed: 0, hasWorkedStudAssFrontend: true);
+
+        var result = await _service.CheckJobAsync(PlayerId, CombinedJobId);
+
+        Assert.NotNull(result);
+        Assert.False(result.IsOpen); // "All": one passed level is not enough
+        Assert.Equal(new[] { "Mangler Backend nivå 1" }, result.LockReasons);
+    }
+
+    [Fact]
+    public async Task CheckJobAsync_TwoOfEachMissing_ListsEveryMissingItem()
+    {
+        SetUpPlayer(frontendLevelPassed: 0, hasWorkedItHelp: false);
+
+        var result = await _service.CheckJobAsync(PlayerId, CombinedJobId);
+
+        Assert.NotNull(result);
+        Assert.Equal(new[] { "Mangler Frontend nivå 1 og Backend nivå 1", "Må ha jobbet som IT Help og Stud.ass Frontend" }, result.LockReasons);
+    }
+
+    [Fact]
+    public async Task CheckJobAsync_TwoOfEachCompleted_IsOpen()
+    {
+        SetUpPlayer(frontendLevelPassed: 1, hasWorkedItHelp: true, backendLevelPassed: 1, hasWorkedStudAssFrontend: true);
+
+        var result = await _service.CheckJobAsync(PlayerId, CombinedJobId);
+
+        Assert.NotNull(result);
+        Assert.True(result.IsOpen);
     }
 
     [Fact]

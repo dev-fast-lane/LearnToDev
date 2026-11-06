@@ -25,6 +25,14 @@ public class PlayerRepository : IPlayerRepository
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    //Spilleren med bare skolefremgang, til JobEligibilityService som ikke trenger bolig eller jobb (#36)
+    public async Task<Player?> GetByIdWithSchoolProgressAsync(int id)
+    {
+        return await _context.Players
+            .Include(p => p.SchoolProgresses)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
     //Alle spillerne på én konto, til startskjermen (#15)
     public async Task<List<Player>> GetByUserIdAsync(string userId)
     {
@@ -64,14 +72,13 @@ public class PlayerRepository : IPlayerRepository
             .ToListAsync();
     }
 
-    //Id-ene til jobbene spilleren har fullført minst én dag i (#36)
-    public async Task<List<int>> GetCompletedJobIdsAsync(int playerId)
+    //Id-ene til jobbene spilleren har fullført minst én dag i (#36). HashSet fordi den brukes til raske Contains-sjekker
+    public async Task<HashSet<int>> GetCompletedJobIdsAsync(int playerId)
     {
         return await _context.JobDays
             .Where(d => d.PlayerId == playerId && d.Completed)
             .Select(d => d.JobId)
-            .Distinct()
-            .ToListAsync();
+            .ToHashSetAsync();
     }
 
     //Oppretter raden første gang spilleren består et nivå på en skole, og oppdaterer den etter det

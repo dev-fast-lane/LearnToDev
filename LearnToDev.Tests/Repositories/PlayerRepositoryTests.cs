@@ -88,6 +88,27 @@ public class PlayerRepositoryTests : IDisposable
     }
 
     [Fact]
+    public async Task GetByIdWithSchoolProgressAsync_ExistingPlayer_IncludesProgress()
+    {
+        var player = await _repository.AddAsync(NewPlayer());
+        await _repository.SaveSchoolProgressAsync(player.Id, 1, 1);
+        _context.ChangeTracker.Clear(); // Glem objektene som er lastet, så bare Include kan fylle dem inn
+
+        var result = await _repository.GetByIdWithSchoolProgressAsync(player.Id);
+
+        Assert.NotNull(result);
+        Assert.Single(result.SchoolProgresses);
+    }
+
+    [Fact]
+    public async Task GetByIdWithSchoolProgressAsync_UnknownId_ReturnsNull()
+    {
+        var result = await _repository.GetByIdWithSchoolProgressAsync(999);
+
+        Assert.Null(result);
+    }
+
+    [Fact]
     public async Task GetByUserIdAsync_TwoAccounts_ReturnsOnlyPlayersOnThatAccount()
     {
         await _repository.AddAsync(NewPlayer(UserId, "Kari"));

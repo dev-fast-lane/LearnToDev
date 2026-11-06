@@ -35,4 +35,12 @@ public class Player
     //The player's progress in schools and completed job days (one player has many of each)
     public ICollection<PlayerSchoolProgress> SchoolProgresses { get; set; } = new List<PlayerSchoolProgress>();
     public ICollection<JobDay> JobDays { get; set; } = new List<JobDay>();
+
+    //Highest level passed in one school. 0 means the player has not passed any level there yet.
+    //NB: SchoolProgresses must be loaded first (GetByIdWithSchoolProgressAsync or GetByIdWithDetailsAsync).
+    //There is no lazy loading, so on a player from a plain query the list is empty and this always returns 0
+    public int GetLevelPassed(int schoolId)
+    {
+        return SchoolProgresses.FirstOrDefault(p => p.SchoolId == schoolId)?.LevelPassed ?? 0;
+    }
 }
