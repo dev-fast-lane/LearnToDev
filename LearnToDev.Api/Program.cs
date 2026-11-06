@@ -4,6 +4,7 @@ using LearnToDev.Api.Data;
 using LearnToDev.Api.Repositories;
 using LearnToDev.Api.Repositories.Interfaces;
 using LearnToDev.Api.Services;
+using LearnToDev.Api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,8 @@ builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IJobTaskRepository, JobTaskRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
-//Services: game rules. Scoped because they use the scoped repositories
+//Services: game rules. Scoped because they use the repositories above
+builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<IJobEligibilityService, JobEligibilityService>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
