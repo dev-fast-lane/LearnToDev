@@ -1,15 +1,18 @@
 namespace LearnToDev.Api.Models;
+
 public static class GameRules
 {
     //Spilleregler for LearnToDev se [spilltall.md](/LearnToDev/Spilltall.md)
     public const int HoursPerPracticeQuestion = 1;
     public const int StartMoney = 50;
-    
+
     public const int TasksPerWorkDay = 5;
     public const int GoodWorkMark = 3;
 
     public const int WarningsBeforeFired = 2;
     public const int WarningResetDays = 5;
+
+    public const int MaxSchoolLevel = 3;
 
     public const int ExamQuestionCount = 5;
     public const int ExamPassMark = 4;

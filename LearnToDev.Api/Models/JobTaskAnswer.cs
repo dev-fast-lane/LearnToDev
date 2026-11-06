@@ -11,4 +11,4 @@ public class JobTaskAnswer
 
     [Required]
     public string Text { get; set; } = string.Empty;
-}   
+}

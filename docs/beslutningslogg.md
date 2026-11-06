@@ -23,10 +23,12 @@ Denne loggen forklarer hvorfor spillreglene i [spilltall](spilltall.md) er som d
 | Jobb      | Krav                                         | Lønn per dag | Skift |
 | --------- | -------------------------------------------- | ------------ | ----- |
 | IT Help   | Alltid åpen                                  | 20           | 4 t   |
-| Stud.ass  | Bestått nivå 1 på en skole                   | 75           | 4 t   |
+| Stud.ass Frontend | Frontend 1, og jobbet i IT Help                     | 75  | 4 t |
+| Stud.ass Backend  | Backend 1, og jobbet i IT Help                      | 75  | 4 t |
+| Stud.ass Database | Database 1, og jobbet i IT Help                     | 75  | 4 t |
 | Office    | Fullstack 1, og jobbet som Stud.ass          | 150          | 6 t   |
 | Startup   | Fullstack 2, og jobbet på Office             | 260          | 6 t   |
-| Tech Corp | Fullstack 3, og jobbet på Startup            | 450          | 8 t   |
+| Tech Corp | Fullstack 3, og jobbet på Startup            | 450          | 8 t      |
 
 Kravene sikrer at spilleren går gjennom stigen i riktig rekkefølge: skolenivået viser
 at hen kan faget, Fullstack viser at hen behersker alle fagene samlet, og kravet om
@@ -34,7 +36,7 @@ tidligere jobb gjør at man ikke kan hoppe over trinn.
 
 Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som hører til jobben) stiger på hvert nivå: 20, 35, 70, 100 og 150. Lønnen blir utbetalt på starten av hver nye dag.
 
-**Konsekvenser:** Spilleren må både lære (skole og eksamen) og jobbe for å komme videre. Kravene lagres i `JobRequirement` (skolenivå) og `JobPrerequisite` (tidligere jobb). Det holder å ha bestått ett av nivåene i `JobRequirement`: Stud.ass har én rad per nivå 1-skole, mens Office, Startup og Tech Corp bare har én rad (Fullstack på sitt nivå). Bedre jobber har lengre skift, så det blir mindre tid igjen til øving med mindre spilleren flytter til en bolig med flere timer.
+**Konsekvenser:** Spilleren må både lære (skole og eksamen) og jobbe for å komme videre. Kravene lagres i `JobRequirement` (skolenivå) og `JobPrerequisite` (tidligere jobb). Det holder å ha bestått ett av nivåene i `JobRequirement`: Stud.ass har én rad per nivå 1-skole, mens Office, Startup og Tech Corp bare har én rad (Fullstack på sitt nivå). Alle jobbene unntatt IT Help har én rad i `JobPrerequisite` for jobben før. Bedre jobber har lengre skift, så det blir mindre tid igjen til øving med mindre spilleren flytter til en bolig med flere timer.
 
 ## ADR 3: Oppsigelse
 

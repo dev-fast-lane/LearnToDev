@@ -10,6 +10,7 @@ Spilleren øver på spørsmål i ulike skoler og nivåer, består eksamener for 
 | --- | --- |
 | `LearnToDev.Api/` | ASP.NET Core API-appen (Identity, EF Core, SQLite) |
 | `LearnToDev.Tests/` | Enhetstester (xUnit) |
+| `learntodev-react/` | React-appen (Vite, TypeScript, React Router) |
 | `docs/` | ER-diagram, funksjonsoversikt, møtereferater og prosjektplan |
 
 ## Kom i gang
@@ -20,10 +21,22 @@ Du trenger [.NET SDK 10](https://dotnet.microsoft.com/download).
 git clone https://github.com/dev-fast-lane/LearnToDev.git
 cd LearnToDev
 dotnet build
-dotnet watch --project LearnToDev.Api
+dotnet watch --project LearnToDev.Api --launch-profile https
 ```
 
 `dotnet watch` starter API-et og bygger på nytt når du lagrer. Nettleseren åpner Swagger (`/swagger`), der du kan prøve endepunktene. Adressen står i utskriften (`https://localhost:xxxx`). Hvis nettleseren ikke stoler på sertifikatet, kjør `dotnet dev-certs https --trust` én gang.
+
+### React-appen
+
+Du trenger [Node.js](https://nodejs.org) 20 eller nyere. Start API-et først, og så React-appen i en egen terminal:
+
+```bash
+cd learntodev-react
+npm install
+npm run dev
+```
+
+Appen kjører på `http://localhost:5173`. Kall til `/api` sendes videre til API-et på `https://localhost:7028`, så API-et må kjøre med `--launch-profile https`.
 
 Kjør testene:
 
