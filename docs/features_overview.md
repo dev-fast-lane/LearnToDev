@@ -23,11 +23,11 @@ Tall og regler er bestemt i [beslutningsloggen](beslutningslogg.md) og [spilltal
 
 når man jobber er det insert field
 
-Rekkefølge på jobber er IT Help -> stud.ass -> Office -> Startup -> Tech Corp
+Rekkefølge på jobber er IT Help -> Stud.ass (Frontend, Backend, Database) -> Office -> Startup -> Tech Corp
 
 - IT Help = alltid åpen
-- stud.ass = bestått nivå 1 på én skole (det holder med én) & jobbet som IT Help
-- Office = bestått Fullstack 1 & jobbet som stud.ass
+- Stud.ass Frontend / Backend / Database = bestått nivå 1 i sin skole & jobbet som IT Help
+- Office = bestått Fullstack 1 & jobbet i alle tre Stud.ass-jobbene
 - Startup = bestått Fullstack 2 & jobbet på Office
 - Tech Corp = bestått Fullstack 3 & jobbet på Startup
 
