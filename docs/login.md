@@ -1,34 +1,35 @@
 # Innlogging
 
-Innloggingen bruker ASP.NET Core Identity med en egen `AccountController` (API). Vi bruker ikke de ferdige Identity UI-sidene (Razor Pages).
+Innloggingen bruker ASP.NET Core Identity med en egen `AuthController` (API). React sender JSON, og API-et svarer med JSON og statuskoder. Vi bruker ikke de ferdige Identity UI-sidene (Razor Pages).
 
 ## Filer
 
 | Fil | Innhold |
 | --- | --- |
 | `Data/ApplicationDbContext.cs` | Arver fra `IdentityDbContext` og gir oss Identity-tabellene |
-| `Program.cs` | `AddIdentity<IdentityUser, IdentityRole>` og `UseAuthentication()` |
-| `Models/LoginViewModel.cs` | Feltene i innloggingsskjemaet |
-| `Controllers/AccountController.cs` | `Login` (GET viser skjemaet, POST logger inn) |
+| `Program.cs` | `AddIdentity<IdentityUser, IdentityRole>`, cookie-innstillinger og `UseAuthentication()` |
+| `DTOs/LoginDto.cs`, `RegisterDto.cs` | Det React sender inn |
+| `DTOs/UserDto.cs` | Det API-et svarer med |
+| `Controllers/AuthController.cs` | `login`, `register`, `logout` og `me` |
 
-## Flyt for POST `Login`
+## Flyt for POST `api/auth/login`
 
 ```
-Skjema sendt inn
-  → Ekte skjema? (token)          nei → avvist
-  → Felter fylt ut?               nei → vis skjema med feil
+JSON sendt inn
+  → Felter fylt ut?               nei → 400 med feilmeldinger
   → Finn bruker (e-post/navn)
-  → Riktig passord?               ja  → cookie + send videre
-  → Låst konto?                   ja  → «For mange feilforsøk»
-  → Ellers                            → «Ugyldig innlogging»
+  → Riktig passord?               ja  → cookie + 200 med brukeren
+  → Låst konto?                   ja  → 401 «For mange feilforsøk»
+  → Ellers                            → 401 «Ugyldig innlogging»
 ```
 
 ## Sikkerhetsvalg
 
-- **Anti-forgery-token** på skjemaet hindrer at andre nettsider sender det inn for brukeren.
+- **`SameSite=Strict`** gjør at nettleseren ikke sender cookien med forespørsler fra andre nettsider. Derfor trenger vi ikke anti-forgery-token.
+- **`HttpOnly`** gjør at JavaScript ikke kan lese cookien, så et XSS-angrep ikke kan stjele innloggingen.
+- **DTO-er** i svarene gjør at passord-hashen aldri blir sendt til React.
 - **Én felles feilmelding** («Ugyldig innlogging») avslører ikke om e-posten eller brukernavnet finnes.
 - **Utestenging:** 5 feil passord låser kontoen i 5 minutter.
-- **`Url.IsLocalUrl`** sørger for at brukeren bare sendes tilbake til sider på vårt eget nettsted etter innlogging.
 - Passord lagres aldri, bare som hash (håndteres av Identity).
 
 ## Database

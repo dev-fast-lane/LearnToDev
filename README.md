@@ -127,9 +127,9 @@ Uventede feil fanges globalt av `UseExceptionHandler()` i `Program.cs`. Feilen l
 Hent `ILogger<T>` i konstruktøren, på samme måte som andre tjenester:
 
 ```csharp
-private readonly ILogger<AccountController> _logger;
+private readonly ILogger<AuthController> _logger;
 
-public AccountController(ILogger<AccountController> logger)
+public AuthController(ILogger<AuthController> logger)
 {
     _logger = logger;
 }

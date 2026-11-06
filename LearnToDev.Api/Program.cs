@@ -44,6 +44,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 // Et API skal svare med statuskode, ikke sende brukeren videre til en innloggingsside
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    //JavaScript får ikke lese cookien, så et XSS-angrep ikke kan stjele innloggingen (Identity gjør dette som standard, men vi skriver det ut for å synliggjøre valget)
+    options.Cookie.HttpOnly = true;
+    //Nettleseren sender ikke cookien med forespørsler fra andre nettsider
+    options.Cookie.SameSite = SameSiteMode.Strict;
     options.Events.OnRedirectToLogin = context =>
     {
         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
