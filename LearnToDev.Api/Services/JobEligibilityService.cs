@@ -50,4 +50,20 @@ public class JobEligibilityService : IJobEligibilityService
 
         return $"Mangler {string.Join(" eller ", missing)}";
     }
+
+    // Returns a lock reason if the player has not completed a work day in every prerequisite job, otherwise null
+    private static string? CheckPrerequisiteJobs(Job job, List<int> completedJobIds)
+    {
+        // "All": every prerequisite job must be completed, so collect the ones that are missing
+        var missingJobs = job.Prerequisites
+            .Where(prerequisite => !completedJobIds.Contains(prerequisite.RequiredJobId))
+            .Select(prerequisite => prerequisite.RequiredJob.Name)
+            .ToList();
+
+        if (missingJobs.Count == 0)
+            return null;
+
+        // e.g. "Må ha jobbet som Stud.ass Backend", or "Må ha jobbet som Stud.ass Frontend, Stud.ass Backend"
+        return $"Må ha jobbet som {string.Join(", ", missingJobs)}";
+    }
 }
