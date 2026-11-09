@@ -1,4 +1,5 @@
 ﻿using LearnToDev.Api.DTOs;
+using LearnToDev.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -63,14 +64,18 @@ public class AuthController : ControllerBase
 
         //Hasher passordet og sjekker det DTO-en ikke kan vite, som passordstyrke og om navnet er ledig
         var result = await _userManager.CreateAsync(user, dto.Password);
-        
+
         if (result.Succeeded)
         {
             _logger.LogInformation("Ny bruker {UserId} registrert.", user.Id);
+
+            //Alle nye brukere er spillere. Må skje før innlogging, så rollen kommer med i cookien
+            await _userManager.AddToRoleAsync(user, Roles.Player);
+
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Ok(await ToUserDtoAsync(user));
         }
-        
+
         //Feilene fra Identity sendes i samme format som valideringsfeilene, så React kan vise dem likt
         foreach (var error in result.Errors)
         {
@@ -79,7 +84,7 @@ public class AuthController : ControllerBase
 
         return ValidationProblem(ModelState);
     }
-    
+
     //Sletter innloggingscookien
     [Authorize]
     [HttpPost("logout")]
@@ -91,7 +96,7 @@ public class AuthController : ControllerBase
         _logger.LogInformation("Bruker {UserId} logget ut.", userId);
         return NoContent();
     }
-    
+
     //Lar React sjekke om brukeren er innlogget når siden lastes
     [Authorize]
     [HttpGet("me")]
@@ -107,7 +112,7 @@ public class AuthController : ControllerBase
 
         return Ok(await ToUserDtoAsync(user));
     }
-    
+
     //Lager svaret til React. Bruker en DTO så passord-hashen aldri blir sendt
     private async Task<UserDto> ToUserDtoAsync(IdentityUser user)
     {
