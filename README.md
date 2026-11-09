@@ -36,6 +36,19 @@ npm install
 npm run dev
 ```
 
+### Testbrukere
+
+Rollene `Admin` og `Player` og to testbrukere lages automatisk første gang API-et starter (`Data/IdentitySeeder.cs`). Du kan logge inn med brukernavn eller e-post.
+
+| Brukernavn | E-post | Passord | Rolle | Tilgang |
+| --- | --- | --- | --- | --- |
+| `admin` | `admin@learntodev.no` | `Admin123!` | Admin | Admin-endepunktene (`/api/admin/...`) |
+| `player` | `player@learntodev.no` | `Player123!` | Player | Spillet |
+
+Nye brukere som registrerer seg, får rollen `Player`. Admin kan bare lages av seederen.
+
+Passordene står åpent her og er kun for testing. De må ikke brukes i en ekte installasjon.
+
 Appen kjører på `http://localhost:5173`. Kall til `/api` sendes videre til API-et på `https://localhost:7028`, så API-et må kjøre med `--launch-profile https`.
 
 Kjør testene:

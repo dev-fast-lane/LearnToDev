@@ -70,6 +70,11 @@ using (var scope = app.Services.CreateScope())
     var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("DbInitializer");
     var seedFolder = Path.Combine(AppContext.BaseDirectory, "Data", "Seed");
     await DbInitializer.SeedAsync(db, logger, seedFolder);
+    // Create the roles and the test users if they do not exist
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var identityLogger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("IdentitySeeder");
+    await IdentitySeeder.SeedAsync(roleManager, userManager, identityLogger);
 }
 
 // Configure the HTTP request pipeline.
