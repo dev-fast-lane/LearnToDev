@@ -31,6 +31,12 @@ Verktøy brukt: Claude
 Hva ble spurt: Veiledning steg for steg til AuthController (#57): DTO-er, endepunktene for innlogging, registrering, utlogging og me, og cookie-innstillingene.
 Hva ble brukt: DTO-ene, AuthController og cookie-innstillingene skrev jeg selv etter forslag og forklaring fra Claude. Claude rettet feil navn på et felt i DTO-ene, la inn kommentarene i AuthController, og oppdaterte README og docs/login.md.
 Verifisering: Testet endepunktene i Swagger. Claude kjørte også alle endepunktene mot en midlertidig database, med feil input, feil passord og låst konto, og sjekket at cookien har HttpOnly og SameSite=Strict. dotnet build ga 0 advarsler, og dotnet test ga 22 av 22 bestått.
+
+Dato: 10-11-2026
+Verktøy brukt: Claude
+Hva ble spurt: Veiledning steg for steg til API-tjenestelaget i React (#64): felles klient (apiClient), feilhåndtering av ProblemDetails (ApiError) og authService, med en grundig gjennomgang av koden.
+Hva ble brukt: Filene skrev jeg selv etter kodeforslag og forklaring fra Claude. Claude kjørte API-et for å se hvordan feilene faktisk ser ut før feilhåndteringen ble laget, foreslo kommentarene og skrev PR-teksten.
+Verifisering: tsc og eslint ga 0 feil. Claude kalte authService gjennom Vite-proxyen mot API-et med en midlertidig database: feil passord, valideringsfeil, svakt passord, registrering, me, logout og innlogging. Alle ga riktig svar eller ApiError, og cookien var ikke synlig for JavaScript. Søk viste ingen fetch utenfor src/services.
 ```
 ### Sebastian
 ```
