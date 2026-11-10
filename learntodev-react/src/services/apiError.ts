@@ -28,6 +28,10 @@ const statusMessages: Record<number, string> = {
   403: "Du har ikke tilgang til dette.",
   404: "Fant ikke det du lette etter.",
   500: "Noe gikk galt på serveren. Prøv igjen senere.",
+// svarer 502–504 når API-et ikke svarer
+  502: "Får ikke kontakt med serveren. Prøv igjen senere.",
+  503: "Får ikke kontakt med serveren. Prøv igjen senere.",
+  504: "Får ikke kontakt med serveren. Prøv igjen senere.",
 };
 
 // Gjør om et feilsvar fra API-et til en ApiError komponentene kan vise
