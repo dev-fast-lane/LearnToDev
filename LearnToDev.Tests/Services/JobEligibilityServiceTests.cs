@@ -14,6 +14,13 @@ public class JobEligibilityServiceTests
     private const int StudAssFrontendId = 2;
     private const int CombinedJobId = 3;
 
+    // Only used by the Office test. Any free numbers work, they just have to match each other
+    private const int StudAssBackendId = 5;
+    private const int StudAssDatabaseId = 6;
+    private const int OfficeId = 7;
+    private const int FullstackSchoolId = 4;
+    private const int FullstackLevel1Id = 10;
+
     private readonly Mock<IJobRepository> _jobRepository = new();
     private readonly Mock<IPlayerRepository> _playerRepository = new();
     private readonly JobEligibilityService _service;
@@ -178,5 +185,39 @@ public class JobEligibilityServiceTests
         Assert.NotNull(result);
         Assert.True(result.IsOpen);
         Assert.Empty(result.LockReasons);
+    }
+
+    [Fact]
+    public async Task CheckJobAsync_OfficeWithAllStudAssButNoFullstack_LockedByFullstack()
+    {
+        // Arrange: Office needs Fullstack level 1 and a work day in all three Stud.ass jobs
+        var fullstack = new School { Id = FullstackSchoolId, Name = "Fullstack" };
+        var fullstackLevel1 = new SchoolLevel { Id = FullstackLevel1Id, SchoolId = FullstackSchoolId, School = fullstack, Level = 1 };
+
+        var studAssFrontend = new Job { Id = StudAssFrontendId, Name = "Stud.ass Frontend" };
+        var studAssBackend = new Job { Id = StudAssBackendId, Name = "Stud.ass Backend" };
+        var studAssDatabase = new Job { Id = StudAssDatabaseId, Name = "Stud.ass Database" };
+
+        var office = new Job { Id = OfficeId, Name = "Office" };
+        office.JobRequirements.Add(new JobRequirement { JobId = OfficeId, SchoolLevelId = FullstackLevel1Id, SchoolLevel = fullstackLevel1 });
+        office.Prerequisites.Add(new JobPrerequisite { JobId = OfficeId, RequiredJobId = StudAssFrontendId, RequiredJob = studAssFrontend });
+        office.Prerequisites.Add(new JobPrerequisite { JobId = OfficeId, RequiredJobId = StudAssBackendId, RequiredJob = studAssBackend });
+        office.Prerequisites.Add(new JobPrerequisite { JobId = OfficeId, RequiredJobId = StudAssDatabaseId, RequiredJob = studAssDatabase });
+
+        // The player has worked in every Stud.ass job, but has not passed any school level
+        var player = new Player { Id = PlayerId, Name = "Kari" };
+        var completedJobIds = new HashSet<int> { ItHelpId, StudAssFrontendId, StudAssBackendId, StudAssDatabaseId };
+
+        _jobRepository.Setup(r => r.GetByIdWithRequirementsAsync(OfficeId)).ReturnsAsync(office);
+        _playerRepository.Setup(r => r.GetByIdWithSchoolProgressAsync(PlayerId)).ReturnsAsync(player);
+        _playerRepository.Setup(r => r.GetCompletedJobIdsAsync(PlayerId)).ReturnsAsync(completedJobIds);
+
+        // Act
+        var result = await _service.CheckJobAsync(PlayerId, OfficeId);
+
+        // Assert: locked by the school rule only, so the Stud.ass jobs were accepted
+        Assert.NotNull(result);
+        Assert.False(result.IsOpen);
+        Assert.Equal(new[] { "Mangler Fullstack nivå 1" }, result.LockReasons);
     }
 }
