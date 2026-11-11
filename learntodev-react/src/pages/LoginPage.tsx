@@ -2,6 +2,8 @@ import { useState, type SubmitEvent } from "react";
 import { useNavigate } from "react-router";
 import FormField from "../components/FormField";
 import { useToast } from "../components/toast/useToast";
+import { login } from "../services/authService";
+import { ApiError } from "../services/apiError";
 import { fieldErrorsFrom, type FieldErrors } from "../utils/problemDetails";
 
 export default function LoginPage() {
@@ -21,31 +23,28 @@ export default function LoginPage() {
     setErrors(clientErrors);
     if (Object.keys(clientErrors).length > 0) return;
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ emailOrUserName, password, rememberMe: false }),
-    });
-
-    if (response.ok) {
-      toast("Innlogging vellykket");
+    try {
+      await login({ emailOrUserName, password, rememberMe: false });
+      toast("Innlogging vellykket", "success");
       navigate("/");
-    } else if (response.status === 400) {
-      setErrors(fieldErrorsFrom(await response.json())); // Validation errors from ProblemDetails format
-    } else {
-      const body = await response.json().catch(() => null);
-      toast(body?.message ?? "Innlogging feilet", "error"); //401: Unauthorized or other errors
+    } catch (error) {
+      if (!(error instanceof ApiError)) throw error;
+      const fieldErrors = fieldErrorsFrom(error.fieldErrors);
+      if (Object.keys(fieldErrors).length > 0) {
+        setErrors(fieldErrors); // validation errors at the fields
+      } else {
+        toast(error.message, "error"); // e.g. "Ugyldig innlogging."
+      }
     }
   }
-
   return (
     <form className="card" onSubmit={handleSubmit} noValidate>
       <h1>Logg inn</h1>
       <FormField label="E-post eller brukernavn" name="emailOrUserName"
-        value={emailOrUserName} onChange={(e) => setEmailOrUserName(e.target.value)} 
+        value={emailOrUserName} onChange={(e) => setEmailOrUserName(e.target.value)}
         error={errors.emailOrUserName} />
-      <FormField label="Passord" name="password" type="password" 
-        value={password} onChange={(e) => setPassword(e.target.value)} 
+      <FormField label="Passord" name="password" type="password"
+        value={password} onChange={(e) => setPassword(e.target.value)}
         error={errors.password} />
       <button className="btn" type="submit">Logg inn</button>
     </form>

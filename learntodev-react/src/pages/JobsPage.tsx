@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { Loading, ErrorMessage, EmptyState } from "../components/StateViews";
-
-type Job = {
-  id: number;
-  name: string;
-  wage: number;
-};
+import { getJobs } from "../services/jobService";
+import { ApiError } from "../services/apiError";
+import type { JobDto } from "../types/job";
 
 export default function JobsPage() {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const [jobs, setJobs] = useState<JobDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0); // Used to trigger a re-fetch on retry
@@ -18,12 +15,12 @@ export default function JobsPage() {
 
     async function fetchJobs() {
       try {
-        const response = await fetch("/api/jobs"); // Placeholder URL for the API endpoint
-        if (!response.ok) throw new Error();
-        const data = await response.json();
+        const data = await getJobs(); // jobService calls /api/jobs through apiClient
         if (!cancelled) setJobs(data);
-      } catch {
-        if (!cancelled) setError("Kunne ikke hente jobbene.");
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof ApiError ? err.message : "Kunne ikke hente jobbene.");
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }
