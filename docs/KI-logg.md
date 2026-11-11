@@ -75,6 +75,12 @@ Verktøy brukt: Claude
 Hva ble spurt: Hjelp til roller og testbrukere (#17), steg for steg: forskjellen på roller og brukere i Identity, hvorfor seedingen må tåle å kjøre ved hver oppstart, RoleManager og UserManager, using og namespace, ControllerBase, cookie og claims, forskjellen på 401 og 403, og hva logging og DoD er til for.
 Hva ble brukt: Claude og jeg jobbet sammen om å komme frem til løsningene. Claude foreslo stegene og koden for Roles, IdentitySeeder, kallet i Program.cs, rollen ved registrering og AdminController, og forklarte hver del. Jeg gikk gjennom forslagene, la dem inn, rettet byggefeil og testet underveis. Rollenavnet Player i stedet for Spiller valgte vi etter gruppas beslutning om engelsk i spillet.
 Verifisering: dotnet build med 0 feil og 0 advarsler. Så i loggen at rollene og testbrukerne ble laget ved første oppstart. Registrerte en ny bruker i Swagger og fikk "roles": ["Player"] i svaret. Tilgangen til /api/admin/ping ga 401 uten innlogging, 403 som spiller og 200 som admin. Jeg testet i Swagger, og Claude kjørte de tre tilfellene med curl.
+
+Dato: 11-11-2026
+Verktøy brukt: Claude
+Hva ble spurt: Hjelp til testene for JobEligibilityService (#48): hvilke kriterier som allerede var dekket av testene fra #36, Arrange–Act–Assert, hvorfor oppsettet for Office ligger i selve testen og ikke i konstruktøren, og hvordan ID-ene i en test med mocks henger sammen.
+Hva ble brukt: Claude og jeg gikk gjennom kriteriene i saken mot testene som fantes, og fant at bare Office-testen manglet, og at ett kriterium var utdatert etter at regelen ble endret i #36. Claude forklarte oppsettet steg for steg og skrev Office-testen med egne konstanter for ID-ene etter at jeg ba om det. Jeg gikk gjennom testen og committet den.
+Verifisering: dotnet build med 0 feil og 0 advarsler. dotnet test: 36 av 36 bestått.
 ```
 ### Ingvald
 ```
