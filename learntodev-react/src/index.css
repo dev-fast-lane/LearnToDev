@@ -5,6 +5,7 @@
     --color-muted: #6b7280;
     --color-primary: #ed7011;
     --color-primary-hover: #d56d11;
+    --color-primary-bg: #fff2e6;
     --color-danger: #b91c1c;
     --color-danger-bg: #fee2e2;
     --color-success: #16a34a;
@@ -58,7 +59,7 @@ h1, h2, h3 {
     color: var(--color-primary);
 }
 .btn-secondary:hover:not(:disabled) {
-    background: #eff6ff;
+    background: var(--color-primary-bg);
 }
 
 /* Forms Fields */

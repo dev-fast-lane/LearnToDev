@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const toast = useToast();
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -22,7 +23,9 @@ export default function LoginPage() {
     if (!password) clientErrors.password = "Skriv inn passord";
     setErrors(clientErrors);
     if (Object.keys(clientErrors).length > 0) return;
+    if (submitting) return; // guard against double submit
 
+    setSubmitting(true);
     try {
       await login({ emailOrUserName, password, rememberMe: false });
       toast("Innlogging vellykket", "success");
@@ -37,8 +40,10 @@ export default function LoginPage() {
         setErrors(fieldErrors); // validation errors at the fields
       } else {
         toast(error.message, "error"); // e.g. "Ugyldig innlogging."
-      }
-    }
+      } 
+    } finally {
+        setSubmitting(false); // NEW: always re-enable, also after an error
+    }  
   }
   return (
     <form className="card" onSubmit={handleSubmit} noValidate>
@@ -49,7 +54,9 @@ export default function LoginPage() {
       <FormField label="Passord" name="password" type="password"
         value={password} onChange={(e) => setPassword(e.target.value)}
         error={errors.password} />
-      <button className="btn" type="submit">Logg inn</button>
+      <button className="btn" type="submit" disabled={submitting}> {/*disabled while submitting */}
+        {submitting ? "Logger inn..." : "Logg inn"}
+      </button>
     </form>
   );
 }
