@@ -43,6 +43,8 @@ h1, h2, h3 {
     color: #fff;
     font: inherit;
     cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
 }
 .btn:hover:not(:disabled) {
     background: var(--color-primary-hover);
