@@ -83,3 +83,15 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 Øving koster 1 time per spørsmål. Med rundt 15 spørsmål per nivå tar øvingen 1–2 dager, avhengig av bolig og skift. Å spare til eksamen tar omtrent 3 dager på nivå 2 og 3 med overskuddet fra jobben på nivået under.
 
 **Konsekvenser:** Eksamen er en liten brems økonomisk, men et tydelig kunnskapskrav. Nytt forsøk koster samme pris og tid.
+
+## ADR 6: Ren CSS med variabler for felles design
+
+**Dato:** 11.11.2026
+
+**Kontekst:** React-appen (`leantodev-react`) skal se ferdig ut og oppføre seg likt på alle skjermene, også på mobilbredde. Vi trenger felles farger, typografi, og felles stil på knapper, skjemaer, kort og tabeller.
+
+**Beslutning:** Bruker per nå bare ren CSS med variabler, (`:root`) i `src/index.css`, pluss én CSS-fil per komponent der det trengs (for eksempel `Layout.css`). Fargene, avstandene (`--space-1` til `--space-4`), `--radius` og fonten er definert som variabler, og felles klasser som `.btn`, `.field`, `.card` og `.table` brukes på alle skjermene. Gjenbrukbare komponenter for lasting, feil og tom liste (`StateViews.tsx`), tilbakemelding (`ToastProvider`, `useToast`) og skjemafelt (`FormField`) bruker de samme klassene. 
+Menyen bruker et mobil-først-oppsett som går over til én rad fra 48 rem (48 × 16px = 768 px).
+
+**Konsekvenser:** CSS-en er global, klassenavn kan kollidere og må holdes unike. Må passe på å bruke variablene i stedet for faste verdier.
+Kan se på å legge til noe av utformingen fra fast-lane-mvp, eller f.eks hente inn noe herfra: https://nostalgic-css.github.io/NES.css/ hvis ønskelig.
