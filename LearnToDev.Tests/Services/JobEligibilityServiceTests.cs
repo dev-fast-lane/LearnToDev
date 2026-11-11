@@ -204,8 +204,9 @@ public class JobEligibilityServiceTests
         office.Prerequisites.Add(new JobPrerequisite { JobId = OfficeId, RequiredJobId = StudAssBackendId, RequiredJob = studAssBackend });
         office.Prerequisites.Add(new JobPrerequisite { JobId = OfficeId, RequiredJobId = StudAssDatabaseId, RequiredJob = studAssDatabase });
 
-        // The player has worked in every Stud.ass job, but has not passed any school level
+        // The player has worked in every Stud.ass job and passed Frontend level 2, but not Fullstack
         var player = new Player { Id = PlayerId, Name = "Kari" };
+        player.SchoolProgresses.Add(new PlayerSchoolProgress { PlayerId = PlayerId, SchoolId = 1, LevelPassed = 2 });
         var completedJobIds = new HashSet<int> { ItHelpId, StudAssFrontendId, StudAssBackendId, StudAssDatabaseId };
 
         _jobRepository.Setup(r => r.GetByIdWithRequirementsAsync(OfficeId)).ReturnsAsync(office);
