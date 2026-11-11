@@ -28,7 +28,10 @@ export default function LoginPage() {
       toast("Innlogging vellykket", "success");
       navigate("/");
     } catch (error) {
-      if (!(error instanceof ApiError)) throw error;
+      if (!(error instanceof ApiError)) {
+        toast("Noe gikk galt. Prøv igjen.", "error");
+        return;
+      }
       const fieldErrors = fieldErrorsFrom(error.fieldErrors);
       if (Object.keys(fieldErrors).length > 0) {
         setErrors(fieldErrors); // validation errors at the fields
