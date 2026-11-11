@@ -33,12 +33,13 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     throw await createApiError(response);
   }
 
-  // 204 No Content (f.eks. logout) har ingen body, så .json() ville feilet
-  if (response.status === 204) {
+  const text = await response.text();
+  // 204 eller tom body (f.eks. logout) gir ingenting å parse
+  if (!text) {
     return undefined as T;
   }
 
-  return (await response.json()) as T;
+  return JSON.parse(text) as T;
 }
 
 // Små hjelpere, så tjenestefilene blir korte
@@ -53,4 +54,17 @@ export function post<T>(path: string, body?: unknown): Promise<T> {
     method: "POST",
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
+}
+
+// Oppdaterer data, samme som post men med PUT
+export function put<T>(path: string, body?: unknown): Promise<T> {
+  return request<T>(path, {
+    method: "PUT",
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+}
+
+// Sletter. Heter del fordi delete er et reservert ord i JavaScript
+export function del<T>(path: string): Promise<T> {
+  return request<T>(path, { method: "DELETE" });
 }

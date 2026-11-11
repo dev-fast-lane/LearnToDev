@@ -5,6 +5,7 @@ interface ApiErrorBody {
   status?: number;
   errors?: Record<string, string[]>;
   message?: string;
+  detail?: string;
 }
 
 // Feilen tjenestene kaster. Komponentene viser message,
@@ -44,7 +45,7 @@ export async function createApiError(response: Response): Promise<ApiError> {
   }
 
   const message =
-    body?.message ?? statusMessages[response.status] ?? `Uventet feil (${response.status}).`;
+    body?.message ?? body?.detail ?? statusMessages[response.status] ?? `Uventet feil (${response.status}).`;
 
   return new ApiError(message, response.status, body?.errors ?? {});
 }
