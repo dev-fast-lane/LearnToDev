@@ -1,0 +1,148 @@
+:root {
+    --color-bg: #f5f6f8;
+    --color-surface: #ffffff;
+    --color-text: #1f2430;
+    --color-muted: #6b7280;
+    --color-primary: #ed7011;
+    --color-primary-hover: #d56d11;
+    --color-primary-bg: #fff2e6;
+    --color-danger: #b91c1c;
+    --color-danger-bg: #fee2e2;
+    --color-success: #16a34a;
+    --color-success-bg: #dcfae5;
+    --color-border: #d1d5db;
+    /* Spacing and sizing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 1rem;
+    --space-4: 1.5rem;
+    --radius: 0.5rem;
+    --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box;} /* Include padding and borders in element dimensions */
+
+body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--color-text);
+    background: var(--color-bg);
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    line-height: 1.2;
+    margin: 0 0 var(--space-3);
+}
+
+/* Buttons */
+.btn {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius);
+    background: var(--color-primary);
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+}
+.btn:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+}
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+}
+.btn-secondary:hover:not(:disabled) {
+    background: var(--color-primary-bg);
+}
+
+/* Forms Fields */
+.field { /* Container for each form field */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+}
+.field label {
+    font-weight: 600;
+}
+.field input, .field select, .field textarea { /* Apply to all form controls */
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font: inherit;
+}
+.field input[aria-invalid="true"] {
+    border-color: var(--color-danger);
+}
+.field-error {
+    color: var(--color-danger);
+    font-size: 0.875rem;
+}
+
+/* Cards */
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+/* Tables: scroll inside wrapper, not whole page on narrow screens/phone */
+.table-wrap {
+    overflow-x: auto;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th, .table td {
+    padding: var(--space-2) var(--space-3);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+.table th {
+    background: var(--color-bg);
+}
+/* State messages */
+.state {
+    padding: var(--space-4);
+    text-align: center;
+    color: var(--color-muted);
+}
+.state-error {
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+    border-radius: var(--radius);
+}
+
+.toasts { /* Container for toast notifications */
+    position: fixed;
+    top: var(--space-3);
+    right: var(--space-3);
+    left: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-end;
+    z-index: 10;
+}
+.toast {
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    max-width: 100%;
+}
+.toast-success {
+    background: var(--color-success-bg);
+    color: var(--color-success);
+}
+.toast-error {
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}

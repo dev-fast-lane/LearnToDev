@@ -96,6 +96,12 @@ Hva ble spurt: Hjelp meg å gjøre ferdig rapportmal
 Hva ble brukt: Forsalg til markdown oppsett osv.
 Verifisering: Så greit ut.
 
+Dato: 10-11-2026
+Verktøy brukt: Claude
+Hva ble spurt: Hjelp til felles design i React (#119): valg av CSS-løsning, felles farger og avstander, komponenter for lasting, feil og tom liste, toast for tilbakemelding, skjemafelt med feilmelding ved feltet (også fra ProblemDetails), 404-side og en meny som fungerer på mobilbredde. Jeg spurte også om rettelser da lint og TypeScript ga feil.
+Hva ble brukt: Forslag til index.css med variabler, StateViews, FormField, ToastProvider/useToast, fieldErrorsFrom og eksempelsidene JobsPage og LoginPage. Jeg la filene inn selv og rettet feil underveis (feil import fra react-router-dom, manglende id i FormField, klassenavn som ikke stemte med CSS-en, feil rute og feltnavn mot API-et). Claude foreslo menyen med like brede knapper på mobil og rettelsen for lintregelen set-state-in-effect og for FormEvent (SubmitEvent).
+Verifisering: Kjørte npm run lint og npm run build. Sjekket siden på 375 px i DevTools. Sammenlignet feltnavnene i LoginPage med LoginDto og ruten med AuthController.
+
 Dato:
 Verktøy brukt: Claude/ Chat-GPT/ Sikt-KI-chat/ osv.
 Hva ble spurt:  

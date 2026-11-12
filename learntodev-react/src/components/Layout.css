@@ -1,21 +1,51 @@
 .layout-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #ccc;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
 }
 
+/* Mobile: the nav fills the width, with equal-width cells */
 .layout-nav {
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-1);
+  flex: 1 1 100%;
+}
+.layout-nav a {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-text);
+  text-align: center;
 }
 
+/* Wide screens: one row, same width on every link */
+@media (min-width: 48rem) {
+  .layout-nav {
+    display: flex;
+    flex: 0 1 auto;
+  }
+  .layout-nav a {
+    min-width: 5.5rem;
+    padding: var(--space-1) var(--space-3);
+  }
+}
+
+.layout-nav a:hover {
+  background: var(--color-bg);
+}
 .layout-nav a.active {
-  font-weight: bold;
-  text-decoration: underline;
+  background: var(--color-primary);
+  color: #fff;
 }
 
 .layout-main {
-  padding: 1rem;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--space-3);
 }
