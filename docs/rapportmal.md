@@ -172,16 +172,22 @@ Beskriv testverktøyene, hva slags logikk som testes, og hvordan positive og neg
 
 ## 7. KI-bruk og verifisering
 
-**Ansvarlig:** navn · **Omfang:** ca. 250–450 ord  
+**Ansvarlig:** Jørgen Eide Anskau · **Omfang:** ca. 250–450 ord
 **Tilhørende issue:** [#75](https://github.com/dev-fast-lane/LearnToDev/issues/75)
 
 ### 7.1 Metodikk for bruk av KI
 
-Beskriv hvordan gruppa brukte KI til idéutvikling, forståelse av konsepter, brukeropplevelse eller kode. Forklar hvordan dere holdt arbeidet avgrenset, gjennomgikk forslagene og unngikk å ta inn kode ukritisk.
+Gruppa brukte hovedsakelig Claude som sparringspartner for å forstå konsepter, utforske løsninger og få forslag til kode. KI ble brukt både til backend og frontend, blant annet til autentisering, tjenestelag, testing, React-komponenter og dokumentasjon. Vi ga avgrensede spørsmål med relevant kontekst, og brukte ikke svarene som en autoritativ fasit. Den som jobbet med oppgaven, gikk gjennom forslaget, tilpasset det til prosjektets navngiving og arkitektur, og tok selv beslutningen om hva som skulle beholdes.
+
+Arbeidet ble dokumentert fortløpende i [KI-loggen](KI-logg.md). Der beskriver vi dato, verktøy, spørsmål, hva som ble brukt og hvordan resultatet ble kontrollert. Dette gjorde det mulig å skille mellom forklaringer som hjalp oss å lære, og kode eller tekst som faktisk ble tatt inn i prosjektet.
 
 ### 7.2 Logg over verifisering og forbedringer
 
-Ta med minst tre konkrete eksempler i tråd med oppgaveteksten, inkludert ett eksempel der KI foreslo kode. Dokumenter hva dere spurte om, hva dere brukte, hva som måtte endres, og hvordan dere kontrollerte sluttresultatet. Bruk også den fortløpende KI-loggen i `docs/KI-logg.md`.
+Et eksempel er `AuthController` og Identity-seedingen. Claude forklarte DTO-er, cookie-innstillinger, roller og forskjellen på statuskodene 401 og 403. Forslagene ble tilpasset underveis, blant annet ved å bruke rollen `Player`, som var gruppas eget valg. Vi testet endepunktene i Swagger og med `curl`, og kontrollerte registrering, innlogging, feil passord, låst konto og tilgang som admin eller spiller. `dotnet build` og `dotnet test` ga henholdsvis 0 advarsler og 22 av 22 beståtte tester.
+
+Et annet eksempel er `JobEligibilityService`. Claude foreslo interface, service, logging og tester, men gjennomgangen avdekket at reglene måtte presiseres. Vi endret blant annet skoleregelen slik at alle skolekrav måtte være oppfylt, og forkastet en endring fra `>` til `>=` da testene viste feil oppførsel. Etter code review ble løsningen utvidet med flere tester og repository-metoder. Sluttresultatet ble kontrollert med bygging og 35 av 35 beståtte tester.
+
+På frontend fikk vi hjelp til `apiClient`, `ApiError`, valideringsmeldinger og responsivt design. Da TypeScript og lint fant feil import, feil feltnavn og en utdatert rute, rettet vi dette mot de faktiske DTO-ene og controllerne. Vi kjørte `tsc`, ESLint og build, og sjekket menyen ved 375 piksler. KI-forslag ble dermed enten endret, kontrollert mot koden eller forkastet før de ble tatt i bruk.
 
 ---
 
