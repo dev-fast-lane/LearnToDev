@@ -7,6 +7,7 @@ import JobsPage from "./pages/JobsPage";
 import HousingPage from "./pages/HousingPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import RegisterPage from "./pages/RegisterPage";
 
 // Which page to show for each URL
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<StartPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/schools" element={<SchoolsPage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/housing" element={<HousingPage />} />
