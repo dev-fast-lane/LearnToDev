@@ -38,9 +38,11 @@ Lønnen er satt slik at overskuddet per dag (lønn minus husleie for boligen som
 
 **Konsekvenser:** Spilleren må både lære (skole og eksamen) og jobbe for å komme videre. Kravene lagres i `JobRequirement` (skolenivå) og `JobPrerequisite` (tidligere jobb). Det holder å ha bestått ett av nivåene i `JobRequirement`: Stud.ass har én rad per nivå 1-skole, mens Office, Startup og Tech Corp bare har én rad (Fullstack på sitt nivå). Alle jobbene unntatt IT Help har én rad i `JobPrerequisite` for jobben før. Bedre jobber har lengre skift, så det blir mindre tid igjen til øving med mindre spilleren flytter til en bolig med flere timer.
 
-## ADR 3: Oppsigelse
+## ADR 3: Oppsigelse (trukket tilbake)
 
 **Dato:** 28.10.2026
+
+**Status:** Trukket tilbake 12.11.2026. Advarsler, sparken og karantene ble kuttet for å rekke innleveringsfristen (#40). En arbeidsdag har fortsatt 5 oppgaver og viser antall riktige, men et dårlig resultat får ingen følger. Spilleren kan fortsatt si opp selv (#37). `Player` får derfor ingen nye felt, og ERD og migrering står urørt. Kravet om en kompleks domeneregel på serveren er dekket av eksamen (ADR 5), jobbstigen (ADR 2) og husleie med utkastelse (ADR 4). Teksten under står igjen som historikk.
 
 **Kontekst:** Arbeid må ha en konsekvens hvis spilleren svarer dårlig, men én dårlig dag skal ikke ødelegge spillet.
 

@@ -11,11 +11,8 @@
 ### Tasks per work shift
 
 - 5 tasks per shift (all jobs)
-- 3-5 out of 5 tasks correct: Good!
-- 0-2 out of 5 tasks correct: Warning!
-- 2 Warnings: Fired!
-- Warnings reset 5 days after the last warning.
-- Fired: can't apply for the same job again for 5 days.
+- The result screen shows how many tasks were correct.
+- No warnings and no firing: a bad shift has no consequences (cut 12.11.2026, see ADR 3 in the decision log).
 
 ## Time
 
