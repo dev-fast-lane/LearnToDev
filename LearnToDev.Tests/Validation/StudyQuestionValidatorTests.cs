@@ -29,7 +29,7 @@ public class StudyQuestionValidatorTests
 
         var errors = StudyQuestionValidator.Validate(question);
 
-        Assert.Contains("nøyaktig fire svaralternativer", errors[0]);
+        Assert.Contains("exactly four answer options", errors[0]);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class StudyQuestionValidatorTests
 
         var errors = StudyQuestionValidator.Validate(question);
 
-        Assert.Contains("Alle svaralternativene må ha tekst.", errors);
+        Assert.Contains("All answer options must have text.", errors);
     }
 
     [Fact]
@@ -57,15 +57,15 @@ public class StudyQuestionValidatorTests
 
         var errors = StudyQuestionValidator.Validate(question);
 
-        Assert.Contains("Nøyaktig ett svaralternativ må være riktig.", errors);
+        Assert.Contains("Exactly one answer option must be correct.", errors);
     }
 
     private static SaveStudyQuestionDto CreateQuestion(params AnswerOptionDto[] options)
     {
         return new SaveStudyQuestionDto
         {
-            Text = "Et spørsmål",
-            Explanation = "En forklaring",
+            Text = "A question",
+            Explanation = "An explanation",
             AnswerOptions = options.ToList()
         };
     }

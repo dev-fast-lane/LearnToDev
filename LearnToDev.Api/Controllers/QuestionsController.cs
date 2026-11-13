@@ -13,17 +13,49 @@ namespace LearnToDev.Api.Controllers;
 public class QuestionsController : ControllerBase
 {
     private readonly IStudyQuestionRepository _questionRepository;
+    private readonly ISchoolRepository _schoolRepository;
     private readonly ISchoolLevelRepository _schoolLevelRepository;
     private readonly ILogger<QuestionsController> _logger;
 
     public QuestionsController(
         IStudyQuestionRepository questionRepository,
+        ISchoolRepository schoolRepository,
         ISchoolLevelRepository schoolLevelRepository,
         ILogger<QuestionsController> logger)
     {
         _questionRepository = questionRepository;
+        _schoolRepository = schoolRepository;
         _schoolLevelRepository = schoolLevelRepository;
         _logger = logger;
+    }
+
+    [HttpGet("options")]
+    public async Task<ActionResult<QuestionOptionsDto>> GetOptions()
+    {
+        var schools = await _schoolRepository.GetAllAsync();
+        var schoolLevels = await _schoolLevelRepository.GetAllAsync();
+
+        return Ok(new QuestionOptionsDto
+        {
+            Schools = schools
+                .OrderBy(school => school.Name)
+                .Select(school => new SchoolOptionDto
+                {
+                    Id = school.Id,
+                    Name = school.Name
+                })
+                .ToList(),
+            SchoolLevels = schoolLevels
+                .OrderBy(level => level.SchoolId)
+                .ThenBy(level => level.Level)
+                .Select(level => new SchoolLevelOptionDto
+                {
+                    Id = level.Id,
+                    SchoolId = level.SchoolId,
+                    Level = level.Level
+                })
+                .ToList()
+        });
     }
 
     [HttpGet]
@@ -56,7 +88,7 @@ public class QuestionsController : ControllerBase
         var schoolLevel = await _schoolLevelRepository.GetByIdAsync(dto.SchoolLevelId);
         if (schoolLevel == null)
         {
-            ModelState.AddModelError(nameof(dto.SchoolLevelId), "Skolenivået finnes ikke.");
+            ModelState.AddModelError(nameof(dto.SchoolLevelId), "The school level does not exist.");
             return ValidationProblem(ModelState);
         }
 
@@ -78,7 +110,7 @@ public class QuestionsController : ControllerBase
         var schoolLevel = await _schoolLevelRepository.GetByIdAsync(dto.SchoolLevelId);
         if (schoolLevel == null)
         {
-            ModelState.AddModelError(nameof(dto.SchoolLevelId), "Skolenivået finnes ikke.");
+            ModelState.AddModelError(nameof(dto.SchoolLevelId), "The school level does not exist.");
             return ValidationProblem(ModelState);
         }
 
