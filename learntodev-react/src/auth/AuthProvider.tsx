@@ -27,8 +27,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function logout() {
-    await authService.logout();
-    setUser(null);
+    try {
+      await authService.logout();
+    } finally {
+      setUser(null);
+    }
   }
 
   // Must match Roles.Admin in the API
