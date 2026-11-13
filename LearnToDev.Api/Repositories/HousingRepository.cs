@@ -2,6 +2,7 @@ using LearnToDev.Api.Data;
 using LearnToDev.Api.Models;
 using LearnToDev.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace LearnToDev.Api.Repositories;
 
@@ -61,5 +62,17 @@ public class HousingRepository : IHousingRepository
         _context.Housings.Remove(housing);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<bool> OrderExistsAsync(int order, int? excludeId = null)
+    {
+        return await _context.Housings
+            .AnyAsync(h => h.Order == order && h.Id != excludeId);
+    }
+
+    public async Task<bool> HasPlayersAsync(int id)
+    {
+        return await _context.Players
+            .AnyAsync(p => p.HousingId == id);
     }
 }

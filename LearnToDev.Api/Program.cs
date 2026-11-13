@@ -31,8 +31,10 @@ builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
 //Services: game rules. Scoped because they use the repositories above
 builder.Services.AddScoped<IExamService, ExamService>();
-builder.Services.AddScoped<IJobEligibilityService, JobEligibilityService>();
 
+builder.Services.AddScoped<IJobEligibilityService, JobEligibilityService>();
+builder.Services.AddScoped<IHousingService, HousingService>();
+builder.Services.AddScoped<IHousingService, HousingService>();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;

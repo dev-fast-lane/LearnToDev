@@ -9,4 +9,6 @@ public interface IHousingRepository
     Task<Housing> AddAsync(Housing housing);
     Task<bool> UpdateAsync(Housing housing);
     Task<bool> DeleteAsync(int id);
+    Task<bool> OrderExistsAsync(int order, int? excludeId = null);
+    Task<bool> HasPlayersAsync(int id);
 }
