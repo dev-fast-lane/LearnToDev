@@ -119,12 +119,21 @@ export default function QuestionForm({
       setForm(emptyQuestion);
       setSelectedSchoolId(0);
     } catch (error) {
+      const validationErrors =
+        error instanceof Error && "fieldErrors" in error
+          ? Object.values(
+              (error as { fieldErrors: Record<string, string[]> }).fieldErrors,
+            )
+              .flat()
+              .join(" ")
+          : "";
       setError(
-        error instanceof Error
-          ? error.message
-          : question
-            ? "Could not update question."
-            : "Could not create question.",
+        validationErrors ||
+          (error instanceof Error
+            ? error.message
+            : question
+              ? "Could not update question."
+              : "Could not create question."),
       );
     } finally {
       setSubmitting(false);
