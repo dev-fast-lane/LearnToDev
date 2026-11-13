@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { EmptyState, ErrorMessage, Loading } from "../components/StateViews";
 import QuestionForm from "../components/QuestionForm";
-import { getQuestions } from "../services/questionService";
+import { deleteQuestion, getQuestions } from "../services/questionService";
 import type { StudyQuestionDto } from "../types/question";
 
 export default function AdminPage() {
   const [questions, setQuestions] = useState<StudyQuestionDto[]>([]);
+  const [editingQuestion, setEditingQuestion] =
+    useState<StudyQuestionDto | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,6 +22,25 @@ export default function AdminPage() {
       );
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleDelete(question: StudyQuestionDto) {
+    if (!window.confirm("Are you sure you want to delete this question?")) {
+      return;
+    }
+
+    try {
+      await deleteQuestion(question.id);
+      setQuestions((current) =>
+        current.filter((item) => item.id !== question.id),
+      );
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Could not delete question.",
+      );
     }
   }
 
@@ -74,9 +95,26 @@ export default function AdminPage() {
       <h1>Manage questions</h1>
 
       <QuestionForm
+        key={editingQuestion?.id ?? "create"}
+        question={editingQuestion ?? undefined}
         onSaved={(createdQuestion) => {
-          setQuestions((current) => [createdQuestion, ...current]);
+          setQuestions((current) => {
+            const exists = current.some(
+              (question) => question.id === createdQuestion.id,
+            );
+            return exists
+              ? current.map((question) =>
+                  question.id === createdQuestion.id
+                    ? createdQuestion
+                    : question,
+                )
+              : [createdQuestion, ...current];
+          });
+          setEditingQuestion(null);
         }}
+        onCancel={
+          editingQuestion ? () => setEditingQuestion(null) : undefined
+        }
       />
 
       {questions.length === 0 ? (
@@ -99,6 +137,15 @@ export default function AdminPage() {
                   </li>
                 ))}
               </ol>
+              <button
+                type="button"
+                onClick={() => setEditingQuestion(question)}
+              >
+                Edit
+              </button>
+              <button type="button" onClick={() => void handleDelete(question)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>

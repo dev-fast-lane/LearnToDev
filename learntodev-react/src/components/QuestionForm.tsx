@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { createQuestion, getQuestionOptions } from "../services/questionService";
+import {
+  createQuestion,
+  getQuestionOptions,
+  updateQuestion,
+} from "../services/questionService";
 import type {
   QuestionOptionsDto,
   SaveStudyQuestionDto,
@@ -7,7 +11,9 @@ import type {
 } from "../types/question";
 
 type QuestionFormProps = {
+  question?: StudyQuestionDto;
   onSaved: (question: StudyQuestionDto) => void;
+  onCancel?: () => void;
 };
 
 const emptyQuestion: SaveStudyQuestionDto = {
@@ -22,8 +28,24 @@ const emptyQuestion: SaveStudyQuestionDto = {
   ],
 };
 
-export default function QuestionForm({ onSaved }: QuestionFormProps) {
-  const [form, setForm] = useState(emptyQuestion);
+export default function QuestionForm({
+  question,
+  onSaved,
+  onCancel,
+}: QuestionFormProps) {
+  const [form, setForm] = useState<SaveStudyQuestionDto>(
+    question
+      ? {
+          schoolLevelId: question.schoolLevelId,
+          text: question.text,
+          explanation: question.explanation,
+          answerOptions: question.answerOptions.map((option) => ({
+            text: option.text,
+            isCorrect: option.isCorrect,
+          })),
+        }
+      : emptyQuestion,
+  );
   const [options, setOptions] = useState<QuestionOptionsDto | null>(null);
   const [selectedSchoolId, setSelectedSchoolId] = useState(0);
   const [loadingOptions, setLoadingOptions] = useState(true);
@@ -55,9 +77,14 @@ export default function QuestionForm({ onSaved }: QuestionFormProps) {
     };
   }, []);
 
+  const activeSchoolId =
+    selectedSchoolId ||
+    options?.schoolLevels.find((level) => level.id === form.schoolLevelId)
+      ?.schoolId ||
+    0;
   const availableLevels =
     options?.schoolLevels.filter(
-      (schoolLevel) => schoolLevel.schoolId === selectedSchoolId,
+      (schoolLevel) => schoolLevel.schoolId === activeSchoolId,
     ) ?? [];
 
   function updateAnswerText(index: number, text: string) {
@@ -85,13 +112,19 @@ export default function QuestionForm({ onSaved }: QuestionFormProps) {
     setError(null);
 
     try {
-      const createdQuestion = await createQuestion(form);
-      onSaved(createdQuestion);
+      const savedQuestion = question
+        ? await updateQuestion(question.id, form)
+        : await createQuestion(form);
+      onSaved(savedQuestion);
       setForm(emptyQuestion);
       setSelectedSchoolId(0);
     } catch (error) {
       setError(
-        error instanceof Error ? error.message : "Could not create question.",
+        error instanceof Error
+          ? error.message
+          : question
+            ? "Could not update question."
+            : "Could not create question.",
       );
     } finally {
       setSubmitting(false);
@@ -104,7 +137,7 @@ export default function QuestionForm({ onSaved }: QuestionFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create question</h2>
+      <h2>{question ? "Edit question" : "Create question"}</h2>
 
       {error && <p role="alert">{error}</p>}
 
@@ -112,7 +145,7 @@ export default function QuestionForm({ onSaved }: QuestionFormProps) {
         <label htmlFor="school">School</label>
         <select
           id="school"
-          value={selectedSchoolId}
+          value={activeSchoolId}
           onChange={(event) => {
             setSelectedSchoolId(Number(event.target.value));
             setForm((current) => ({
@@ -142,7 +175,7 @@ export default function QuestionForm({ onSaved }: QuestionFormProps) {
               schoolLevelId: Number(event.target.value),
             }));
           }}
-          disabled={selectedSchoolId === 0}
+          disabled={activeSchoolId === 0}
           required
         >
           <option value={0}>Select a level</option>
@@ -209,8 +242,17 @@ export default function QuestionForm({ onSaved }: QuestionFormProps) {
       </fieldset>
 
       <button type="submit" disabled={submitting}>
-        {submitting ? "Saving..." : "Create question"}
+        {submitting
+          ? "Saving..."
+          : question
+            ? "Save changes"
+            : "Create question"}
       </button>
+      {onCancel && (
+        <button type="button" onClick={onCancel} disabled={submitting}>
+          Cancel
+        </button>
+      )}
     </form>
   );
 }
