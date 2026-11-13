@@ -53,7 +53,7 @@ export default function RegisterPage() {
         toast(error.message, "error");
       }
     } finally {
-      setSubmitting(false); // NEW: always re-enable, also after an error
+      setSubmitting(false); // always re-enable, also after an error
     }
   }
   return (
