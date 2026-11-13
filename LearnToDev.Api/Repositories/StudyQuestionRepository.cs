@@ -34,7 +34,11 @@ public class StudyQuestionRepository : IStudyQuestionRepository
 
     public async Task<List<StudyQuestion>> GetAllAsync()
     {
-        return await _context.StudyQuestions.ToListAsync();
+        return await _context.StudyQuestions
+            .Include(q => q.SchoolLevel)
+            .ThenInclude(level => level.School)
+            .Include(q => q.AnswerOptions)
+            .ToListAsync();
     }
 
     public async Task<StudyQuestion?> GetByIdAsync(int id)
@@ -44,13 +48,19 @@ public class StudyQuestionRepository : IStudyQuestionRepository
 
     public async Task<StudyQuestion?> GetByIdWithAnswerOptionsAsync(int id)
     {
-        return await _context.StudyQuestions.Include(q => q.AnswerOptions).FirstOrDefaultAsync(q => q.Id == id);
+        return await _context.StudyQuestions
+            .Include(q => q.SchoolLevel)
+            .ThenInclude(level => level.School)
+            .Include(q => q.AnswerOptions)
+            .FirstOrDefaultAsync(q => q.Id == id);
     }
 
     //All questions in one school level with their answer options, used by the exam (#31)
     public async Task<List<StudyQuestion>> GetBySchoolLevelWithAnswerOptionsAsync(int schoolLevelId)
     {
         return await _context.StudyQuestions
+            .Include(q => q.SchoolLevel)
+            .ThenInclude(level => level.School)
             .Include(q => q.AnswerOptions)
             .Where(q => q.SchoolLevelId == schoolLevelId)
             .ToListAsync();
@@ -58,11 +68,15 @@ public class StudyQuestionRepository : IStudyQuestionRepository
 
     public async Task<bool> UpdateAsync(StudyQuestion studyQuestion)
     {
-        var oldStudyQuestion = await _context.StudyQuestions.FindAsync(studyQuestion.Id);
+        var oldStudyQuestion = await _context.StudyQuestions
+            .Include(q => q.AnswerOptions)
+            .FirstOrDefaultAsync(q => q.Id == studyQuestion.Id);
 
         if (oldStudyQuestion == null) return false;
 
         _context.Entry(oldStudyQuestion).CurrentValues.SetValues(studyQuestion);
+        _context.AnswerOptions.RemoveRange(oldStudyQuestion.AnswerOptions);
+        oldStudyQuestion.AnswerOptions = studyQuestion.AnswerOptions;
         await _context.SaveChangesAsync();
         return true;
     }
