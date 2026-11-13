@@ -1,5 +1,6 @@
 import { del, get, post, put } from "./apiClient";
 import type {
+  QuestionOptionsDto,
   SaveStudyQuestionDto,
   StudyQuestionDto,
 } from "../types/question";
@@ -27,4 +28,8 @@ export function updateQuestion(
 
 export function deleteQuestion(id: number): Promise<void> {
   return del<void>(`/questions/${id}`);
+}
+
+export function getQuestionOptions(): Promise<QuestionOptionsDto> {
+  return get<QuestionOptionsDto>("/questions/options");
 }

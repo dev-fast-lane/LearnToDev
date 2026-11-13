@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { EmptyState, ErrorMessage, Loading } from "../components/StateViews";
+import QuestionForm from "../components/QuestionForm";
 import { getQuestions } from "../services/questionService";
 import type { StudyQuestionDto } from "../types/question";
 
@@ -71,6 +72,12 @@ export default function AdminPage() {
   return (
     <main>
       <h1>Manage questions</h1>
+
+      <QuestionForm
+        onSaved={(createdQuestion) => {
+          setQuestions((current) => [createdQuestion, ...current]);
+        }}
+      />
 
       {questions.length === 0 ? (
         <EmptyState text="There are no questions yet." />

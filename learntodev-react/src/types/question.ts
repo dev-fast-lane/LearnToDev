@@ -19,3 +19,19 @@ export type SaveStudyQuestionDto = {
   explanation: string;
   answerOptions: AnswerOptionDto[];
 };
+
+export type SchoolOptionDto = {
+  id: number;
+  name: string;
+};
+
+export type SchoolLevelOptionDto = {
+  id: number;
+  schoolId: number;
+  level: number;
+};
+
+export type QuestionOptionsDto = {
+  schools: SchoolOptionDto[];
+  schoolLevels: SchoolLevelOptionDto[];
+}
