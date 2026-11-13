@@ -87,6 +87,12 @@ Verktøy brukt: Claude
 Hva ble spurt: Hjelp til testene for JobEligibilityService (#48): hvilke kriterier som allerede var dekket av testene fra #36, Arrange–Act–Assert, hvorfor oppsettet for Office ligger i selve testen og ikke i konstruktøren, og hvordan ID-ene i en test med mocks henger sammen.
 Hva ble brukt: Claude og jeg gikk gjennom kriteriene i saken mot testene som fantes, og fant at bare Office-testen manglet, og at ett kriterium var utdatert etter at regelen ble endret i #36. Claude forklarte oppsettet steg for steg og skrev Office-testen med egne konstanter for ID-ene etter at jeg ba om det. Jeg gikk gjennom testen og committet den.
 Verifisering: dotnet build med 0 feil og 0 advarsler. dotnet test: 36 av 36 bestått.
+
+Dato: 12-11-2026
+Verktøy brukt: Claude
+Hva ble spurt: Hjelp til innlogging, registrering og beskyttede ruter i React (#65), steg for steg: hva context er, hvorfor AuthContext deles i tre filer, interface i TypeScript, JSX, klient- mot servervalidering, og hvordan rutevakter med Outlet og Navigate fungerer.
+Hva ble brukt: Claude og jeg jobbet sammen om å komme frem til løsningene. Jeg skrev authContext, useAuth og registreringssiden selv etter forklaring og hint, og Claude rettet feilene underveis. AuthProvider, håndteringen av feil fra Identity i registreringen, RequireAuth, RequireAdmin, rutene i App.tsx og den nye menyen i Layout foreslo Claude, og jeg la dem inn.
+Verifisering: tsc, eslint og npm run build ga 0 feil. Testet registreringsskjemaet i nettleseren mot API-et.
 ```
 ### Ingvald
 ```
